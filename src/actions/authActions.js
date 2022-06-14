@@ -1,6 +1,9 @@
 import axios from "axios";
 import {
     CLEAR_ERRORS,
+    LOAD_USER_FAIL,
+    LOAD_USER_REQUEST,
+    LOAD_USER_SUCCESS,
     LOGIN_FAIL,
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
@@ -20,8 +23,6 @@ export const register = (userData) => async (dispatch) => {
         };
 
         const { data } = await axios.post("/api/register", userData, config);
-
-        console.log("User", data);
 
         dispatch({
             type: REGISTER_USER_SUCCESS,
@@ -52,8 +53,6 @@ export const login = (email, password) => async (dispatch) => {
             config
         );
 
-        console.log("Login Data :", data);
-
         dispatch({
             type: LOGIN_SUCCESS,
             payload: data,
@@ -61,6 +60,25 @@ export const login = (email, password) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: LOGIN_FAIL,
+            payload: error.response.data.message,
+        });
+    }
+};
+
+// Load user
+export const loadUser = () => async (dispatch) => {
+    try {
+        dispatch({ type: LOAD_USER_REQUEST });
+
+        const { data } = await axios.get("/api/current-user");
+
+        dispatch({
+            type: LOAD_USER_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: LOAD_USER_FAIL,
             payload: error.response.data.message,
         });
     }

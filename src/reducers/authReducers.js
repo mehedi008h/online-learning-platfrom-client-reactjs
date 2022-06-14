@@ -6,6 +6,8 @@ import {
     LOGIN_FAIL,
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
+    LOGOUT_FAIL,
+    LOGOUT_SUCCESS,
     REGISTER_USER_FAIL,
     REGISTER_USER_REQUEST,
     REGISTER_USER_SUCCESS,
@@ -21,20 +23,19 @@ export const authReducer = (state = { user: {} }, action) => {
                 isAuthenticated: false,
             };
         case LOGIN_SUCCESS:
+        case REGISTER_USER_SUCCESS:
         case LOAD_USER_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 isAuthenticated: true,
-                user: action.payload.user,
+                user: action.payload,
             };
-        case REGISTER_USER_SUCCESS:
+        case LOGOUT_SUCCESS:
             return {
-                ...state,
                 loading: false,
-                isAuthenticated: true,
-                success: action.payload.success,
-                message: action.payload.message,
+                isAuthenticated: false,
+                user: null,
             };
         case LOAD_USER_FAIL:
             return {
@@ -43,22 +44,18 @@ export const authReducer = (state = { user: {} }, action) => {
                 user: null,
                 error: action.payload,
             };
-
-        case LOGIN_FAIL:
+        case LOGOUT_FAIL:
             return {
                 ...state,
-                loading: false,
-                isAuthenticated: false,
-                user: null,
                 error: action.payload,
             };
+        case LOGIN_FAIL:
         case REGISTER_USER_FAIL:
             return {
                 ...state,
                 loading: false,
                 isAuthenticated: false,
-                success: action.payload.success,
-                message: action.payload.message,
+                user: null,
                 error: action.payload,
             };
         case CLEAR_ERRORS:

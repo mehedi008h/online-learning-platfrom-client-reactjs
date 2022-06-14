@@ -1,8 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineLogin, AiOutlineUserAdd } from "react-icons/ai";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+    const { user, loading } = useSelector((state) => state.auth);
+    console.log("User :", user);
     return (
         <div className="flex">
             <div
