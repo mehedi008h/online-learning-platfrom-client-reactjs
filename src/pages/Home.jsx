@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCourses } from "../actions/courseActions";
-import Course from "../components/cards/Course";
+import CourseCard from "../components/cards/CourseCard";
 import Loader from "../components/layout/loader/Loader";
 
 const Home = () => {
@@ -32,7 +32,7 @@ const Home = () => {
                                         key={course?._id}
                                         className="col-span-4"
                                     >
-                                        <Course course={course} />
+                                        <CourseCard course={course} />
                                     </div>
                                 ))}
                         </div>

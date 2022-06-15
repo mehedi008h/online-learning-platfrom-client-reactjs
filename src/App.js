@@ -7,6 +7,7 @@ import Signup from "./pages/auth/Signup";
 import { useEffect } from "react";
 import store from "./store";
 import { loadUser } from "./actions/authActions";
+import CourseDetails from "./pages/course/CourseDetails";
 
 function App() {
     useEffect(() => {
@@ -20,6 +21,7 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
+                    <Route path="/course/:slug" element={<CourseDetails />} />
                 </Routes>
             </BrowserRouter>
         </div>
