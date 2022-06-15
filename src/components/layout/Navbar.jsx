@@ -1,10 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { AiOutlineLogin, AiOutlineUserAdd } from "react-icons/ai";
+import {
+    AiOutlineCoffee,
+    AiOutlineLogin,
+    AiOutlineUserAdd,
+} from "react-icons/ai";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 
 const Navbar = () => {
-    const { user, loading } = useSelector((state) => state.auth);
+    const [open, setOpen] = useState(false);
+
+    const { user } = useSelector((state) => state.auth);
     console.log("User :", user);
     return (
         <div className="flex">
@@ -19,20 +26,63 @@ const Navbar = () => {
                         </Link>
                     </div>
                     <div className="flex flex-row gap-4">
-                        <Link
-                            to={"/login"}
-                            className="flex items-center gap-1 text-white"
-                        >
-                            <AiOutlineLogin size={19} />
-                            Login
-                        </Link>
-                        <Link
-                            to={"/signup"}
-                            className="flex items-center gap-1 text-white"
-                        >
-                            <AiOutlineUserAdd size={19} />
-                            Sign Up
-                        </Link>
+                        {user ? (
+                            <>
+                                {user.role && user.role.includes("Instructor") && (
+                                    <Link
+                                        to="/instructor"
+                                        className="flex items-center gap-1 text-white"
+                                    >
+                                        <AiOutlineLogin size={19} />
+                                        Instructor
+                                    </Link>
+                                )}
+                                <div>
+                                    <div
+                                        className="border py-1 px-4 rounded-full text-white cursor-pointer relative"
+                                        onClick={() =>
+                                            setOpen(open ? false : true)
+                                        }
+                                    >
+                                        <div className="flex items-center gap-2">
+                                            <AiOutlineCoffee size={19} />
+                                            <span>{user?.name}</span>
+                                        </div>
+                                    </div>
+
+                                    {open && (
+                                        <>
+                                            <div className="flex flex-col bg-black py-4 rounded-md absolute top-16">
+                                                <Link
+                                                    to="/user"
+                                                    className="flex items-center gap-1 px-6 py-2 hover:bg-gray-500 bg-opacity-50   text-white"
+                                                >
+                                                    <AiOutlineLogin size={19} />
+                                                    Dashboard
+                                                </Link>
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <Link
+                                    to={"/login"}
+                                    className="flex items-center gap-1 text-white"
+                                >
+                                    <AiOutlineLogin size={19} />
+                                    Login
+                                </Link>
+                                <Link
+                                    to={"/signup"}
+                                    className="flex items-center gap-1 text-white"
+                                >
+                                    <AiOutlineUserAdd size={19} />
+                                    Sign Up
+                                </Link>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
