@@ -10,6 +10,8 @@ import { loadUser } from "./actions/authActions";
 import CourseDetails from "./pages/course/CourseDetails";
 import ProtectedRoute from "./components/route/ProtectedRoute";
 import Course from "./pages/instructor/Course";
+import InstructorCourseDetails from "./pages/instructor/InstructorCourseDetails";
+import UpdateCourse from "./pages/instructor/UpdateCourse";
 
 function App() {
     useEffect(() => {
@@ -32,6 +34,22 @@ function App() {
                         element={
                             <ProtectedRoute isInstructor={true}>
                                 <Course />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/instructor/course/:slug"
+                        element={
+                            <ProtectedRoute isInstructor={true}>
+                                <InstructorCourseDetails />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/instructor/course/update/:slug"
+                        element={
+                            <ProtectedRoute isInstructor={true}>
+                                <UpdateCourse />
                             </ProtectedRoute>
                         }
                     />

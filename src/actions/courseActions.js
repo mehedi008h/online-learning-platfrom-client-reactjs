@@ -9,7 +9,7 @@ import {
     COURSE_DETAILS_SUCCESS,
 } from "../constants/courseConstants";
 
-// get product for user
+// get course for user
 export const getCourses = () => async (dispatch) => {
     try {
         dispatch({ type: ALL_COURSE_REQUEST });
