@@ -14,9 +14,9 @@ const Signup = () => {
     const { isAuthenticated, error } = useSelector((state) => state.auth);
 
     useEffect(() => {
-        // if (isAuthenticated) {
-        //     navigate("/");
-        // }
+        if (isAuthenticated) {
+            navigate("/");
+        }
 
         if (error) {
             error(error);

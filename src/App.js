@@ -8,6 +8,8 @@ import { useEffect } from "react";
 import store from "./store";
 import { loadUser } from "./actions/authActions";
 import CourseDetails from "./pages/course/CourseDetails";
+import ProtectedRoute from "./components/route/ProtectedRoute";
+import Course from "./pages/instructor/Course";
 
 function App() {
     useEffect(() => {
@@ -22,6 +24,17 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/course/:slug" element={<CourseDetails />} />
+
+                    {/* Instructor  */}
+
+                    <Route
+                        path="/instructor"
+                        element={
+                            <ProtectedRoute isInstructor={true}>
+                                <Course />
+                            </ProtectedRoute>
+                        }
+                    />
                 </Routes>
             </BrowserRouter>
         </div>

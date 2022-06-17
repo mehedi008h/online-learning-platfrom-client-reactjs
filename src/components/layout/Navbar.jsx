@@ -5,14 +5,22 @@ import {
     AiOutlineLogin,
     AiOutlineUserAdd,
 } from "react-icons/ai";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import { logout } from "../../actions/authActions";
 
 const Navbar = () => {
     const [open, setOpen] = useState(false);
+    const [instructorOpen, setInstructorOpen] = useState(false);
+
+    const dispatch = useDispatch();
 
     const { user } = useSelector((state) => state.auth);
     console.log("User :", user);
+
+    const handleLogout = () => {
+        dispatch(logout());
+    };
     return (
         <div className="flex">
             <div
@@ -29,13 +37,54 @@ const Navbar = () => {
                         {user ? (
                             <>
                                 {user.role && user.role.includes("Instructor") && (
-                                    <Link
-                                        to="/instructor"
-                                        className="flex items-center gap-1 text-white"
-                                    >
-                                        <AiOutlineLogin size={19} />
-                                        Instructor
-                                    </Link>
+                                    <div>
+                                        <div
+                                            onClick={() =>
+                                                setInstructorOpen(
+                                                    instructorOpen
+                                                        ? false
+                                                        : true
+                                                )
+                                            }
+                                            className="flex items-center gap-2  py-1 px-4 rounded-full text-white cursor-pointer relative"
+                                        >
+                                            <AiOutlineLogin size={19} />
+                                            Instructor
+                                        </div>
+                                        {instructorOpen && (
+                                            <>
+                                                <div className="flex flex-col bg-black py-4 rounded-md absolute top-16">
+                                                    <Link
+                                                        to="/instructor"
+                                                        className="flex items-center gap-1 px-6 py-2 hover:bg-gray-500 bg-opacity-50   text-white"
+                                                    >
+                                                        <AiOutlineLogin
+                                                            size={19}
+                                                        />
+                                                        Dashboard
+                                                    </Link>
+                                                    <Link
+                                                        to="/instructor"
+                                                        className="flex items-center gap-1 px-6 py-2 hover:bg-gray-500 bg-opacity-50   text-white"
+                                                    >
+                                                        <AiOutlineLogin
+                                                            size={19}
+                                                        />
+                                                        Create Course
+                                                    </Link>
+                                                    <Link
+                                                        to="/instructor"
+                                                        className="flex items-center gap-1 px-6 py-2 hover:bg-gray-500 bg-opacity-50   text-white"
+                                                    >
+                                                        <AiOutlineLogin
+                                                            size={19}
+                                                        />
+                                                        Revenue
+                                                    </Link>
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
                                 )}
                                 <div>
                                     <div
@@ -60,6 +109,13 @@ const Navbar = () => {
                                                     <AiOutlineLogin size={19} />
                                                     Dashboard
                                                 </Link>
+                                                <button
+                                                    onClick={handleLogout}
+                                                    className="flex items-center gap-1 px-6 py-2 hover:bg-red-500 bg-opacity-50   text-white"
+                                                >
+                                                    <AiOutlineLogin size={19} />
+                                                    Logout
+                                                </button>
                                             </div>
                                         </>
                                     )}
