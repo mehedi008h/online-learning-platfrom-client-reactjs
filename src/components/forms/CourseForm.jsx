@@ -5,12 +5,12 @@ const CourseForm = ({
     handleImage,
     handleChange,
     values,
-    setValues,
     preview,
     uploadButtonText,
     handleImageRemove,
     editPage = false,
 }) => {
+    console.log(values);
     const children = [];
     for (let i = 9.99; i <= 100.99; i++) {
         children.push(<option key={i.toFixed(2)}>${i.toFixed(2)}</option>);
@@ -63,16 +63,15 @@ const CourseForm = ({
                     </label>
                     <select
                         className="border-b-2 border-gray-500 bg-transparent outline-none py-2 px-4 focus:border-green-500"
-                        defaultValue={values.paid}
-                        onChange={(v) =>
-                            setValues({ ...values, paid: v, price: 0 })
-                        }
+                        value={values.paid}
+                        name="paid"
+                        onChange={handleChange}
                     >
                         <option value={true}>Paid</option>
                         <option value={false}>Free</option>
                     </select>
                 </div>
-                {values.paid && (
+                {values && values?.paid && (
                     <div className="flex flex-col gap-2">
                         <label
                             className="text-base font-semibold"
@@ -83,7 +82,8 @@ const CourseForm = ({
                         <select
                             className="border-b-2 border-gray-500 bg-transparent outline-none py-2 px-4 focus:border-green-500"
                             value={values.price}
-                            onChange={(v) => setValues({ ...values, price: v })}
+                            name="price"
+                            onChange={handleChange}
                         >
                             {children}
                         </select>
@@ -122,12 +122,14 @@ const CourseForm = ({
                     </label>
                 </div>
                 {preview && (
-                    <div
-                        count="X"
-                        onClick={handleImageRemove}
-                        className="pointer"
-                    >
+                    <div className="relative ">
                         <img width={200} src={preview} alt="" />
+                        <button
+                            className="absolute top-1 left-1 bg-white flex items-center justify-center rounded-full h-6 w-6 text-red-500"
+                            onClick={handleImageRemove}
+                        >
+                            X
+                        </button>
                     </div>
                 )}
                 <button
