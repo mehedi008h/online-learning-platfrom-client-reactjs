@@ -7,13 +7,14 @@ const InstructorCourseLessone = ({
     setPreview,
     setOpenLessone,
     setlessone,
+    handleDeleteLesson,
 }) => {
     return (
         <div>
             <h1 className="font-semibold text-xl">Course Curriculum</h1>
             <div className="my-6">
                 {course?.lessons &&
-                    course?.lessons.map((lessone) => (
+                    course?.lessons.map((lessone, index) => (
                         <div
                             key={lessone?._id}
                             className="my-2 bg-gray-300 hover:bg-gray-400 transition-all py-2 px-4"
@@ -46,7 +47,12 @@ const InstructorCourseLessone = ({
                                     >
                                         Edit
                                     </button>
-                                    <button className=" bg-pink-600 text-white rounded-sm px-4">
+                                    <button
+                                        onClick={() =>
+                                            handleDeleteLesson(index, lessone)
+                                        }
+                                        className=" bg-pink-600 text-white rounded-sm px-4"
+                                    >
                                         Delete
                                     </button>
                                 </div>

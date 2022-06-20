@@ -13,6 +13,12 @@ import Course from "./pages/instructor/Course";
 import InstructorCourseDetails from "./pages/instructor/InstructorCourseDetails";
 import UpdateCourse from "./pages/instructor/UpdateCourse";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import CreateCourse from "./pages/instructor/CreateCourse";
+import UserHome from "./pages/user/UserHome";
+import UserCourseDetails from "./pages/user/UserCourseDetails";
+
 function App() {
     useEffect(() => {
         store.dispatch(loadUser());
@@ -21,6 +27,17 @@ function App() {
         <div>
             <BrowserRouter>
                 <Navbar />
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
@@ -38,6 +55,14 @@ function App() {
                         }
                     />
                     <Route
+                        path="/instructor/course/new"
+                        element={
+                            <ProtectedRoute isInstructor={true}>
+                                <CreateCourse />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
                         path="/instructor/course/:slug"
                         element={
                             <ProtectedRoute isInstructor={true}>
@@ -50,6 +75,25 @@ function App() {
                         element={
                             <ProtectedRoute isInstructor={true}>
                                 <UpdateCourse />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    {/* user  */}
+
+                    <Route
+                        path="/user"
+                        element={
+                            <ProtectedRoute>
+                                <UserHome />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/user/course/:slug"
+                        element={
+                            <ProtectedRoute>
+                                <UserCourseDetails />
                             </ProtectedRoute>
                         }
                     />

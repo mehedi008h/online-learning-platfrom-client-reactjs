@@ -6,23 +6,29 @@ import {
     COURSE_DETAILS_FAIL,
     COURSE_DETAILS_REQUEST,
     COURSE_DETAILS_SUCCESS,
+    USER_COURSE_FAIL,
+    USER_COURSE_REQUEST,
+    USER_COURSE_SUCCESS,
 } from "../constants/courseConstants";
 
 export const courseReducer = (state = { courses: [] }, action) => {
     switch (action.type) {
         case ALL_COURSE_REQUEST:
+        case USER_COURSE_REQUEST:
             return {
                 loading: true,
                 courses: [],
             };
 
         case ALL_COURSE_SUCCESS:
+        case USER_COURSE_SUCCESS:
             return {
                 loading: false,
                 courses: action.payload,
             };
 
         case ALL_COURSE_FAIL:
+        case USER_COURSE_FAIL:
             return {
                 loading: false,
                 error: action.payload,

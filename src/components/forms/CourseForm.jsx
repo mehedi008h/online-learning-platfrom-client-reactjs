@@ -13,7 +13,7 @@ const CourseForm = ({
     console.log(values);
     const children = [];
     for (let i = 9.99; i <= 100.99; i++) {
-        children.push(<option key={i.toFixed(2)}>${i.toFixed(2)}</option>);
+        children.push(<option key={i.toFixed(2)}>{i.toFixed(2)}</option>);
     }
     return (
         <div>

@@ -1,18 +1,7 @@
 import React from "react";
 import { BsCart4, BsPlayFill } from "react-icons/bs";
-import { useSelector } from "react-redux";
 
-const CourseDetailsHeader = ({
-    course,
-    setOpen,
-    setPreview,
-    handleFreeEnrollment,
-    handlePaidEnrollment,
-    enrolled,
-    setEnrolled,
-}) => {
-    const { user } = useSelector((state) => state.auth);
-
+const InstructorCourseDetailsHeader = ({ course, setOpen, setPreview }) => {
     return (
         <div
             className="w-full flex"
@@ -35,20 +24,8 @@ const CourseDetailsHeader = ({
                     >
                         <BsPlayFill size={25} /> Watch Promo
                     </button>
-                    <button
-                        onClick={
-                            course?.paid
-                                ? handlePaidEnrollment
-                                : handleFreeEnrollment
-                        }
-                        className="px-5 py-3 rounded-full text-white flex items-center gap-2 text-base tracking-wide bg-pink-600 hover:bg-pink-700  transition-all"
-                    >
+                    <button className="px-5 py-3 rounded-full text-white flex items-center gap-2 text-base tracking-wide bg-pink-600 hover:bg-pink-700  transition-all">
                         <BsCart4 size={20} />
-                        {user
-                            ? enrolled.status
-                                ? "Go to course"
-                                : "Enrole"
-                            : "Login to enroll"}
                     </button>
                 </div>
             </div>
@@ -56,4 +33,4 @@ const CourseDetailsHeader = ({
     );
 };
 
-export default CourseDetailsHeader;
+export default InstructorCourseDetailsHeader;

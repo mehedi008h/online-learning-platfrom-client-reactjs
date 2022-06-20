@@ -7,9 +7,12 @@ import {
     COURSE_DETAILS_FAIL,
     COURSE_DETAILS_REQUEST,
     COURSE_DETAILS_SUCCESS,
+    USER_COURSE_FAIL,
+    USER_COURSE_REQUEST,
+    USER_COURSE_SUCCESS,
 } from "../constants/courseConstants";
 
-// get course for user
+// get all course
 export const getCourses = () => async (dispatch) => {
     try {
         dispatch({ type: ALL_COURSE_REQUEST });
@@ -45,6 +48,27 @@ export const getCourseDetails = (slug) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: COURSE_DETAILS_FAIL,
+            payload: error.response.data.message,
+        });
+    }
+};
+
+// get course for user
+export const getUserCourses = () => async (dispatch) => {
+    try {
+        dispatch({ type: USER_COURSE_REQUEST });
+
+        const { data } = await axios.get("/api/user-courses");
+
+        console.log("Course :", data);
+
+        dispatch({
+            type: USER_COURSE_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: USER_COURSE_FAIL,
             payload: error.response.data.message,
         });
     }

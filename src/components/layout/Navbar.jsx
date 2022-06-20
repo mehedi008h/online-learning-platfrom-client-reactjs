@@ -64,7 +64,7 @@ const Navbar = () => {
                                                         Dashboard
                                                     </Link>
                                                     <Link
-                                                        to="/instructor"
+                                                        to="/instructor/course/new"
                                                         className="flex items-center gap-1 px-6 py-2 hover:bg-gray-500 bg-opacity-50   text-white"
                                                     >
                                                         <AiOutlineLogin

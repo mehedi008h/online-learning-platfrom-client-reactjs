@@ -122,6 +122,28 @@ const UpdateCourse = () => {
         }
     };
 
+    const handleDeleteLesson = async (index) => {
+        let answer = window.confirm("Are you sure?");
+        if (!answer) return;
+        let allLessons = values.lessons;
+        const removed = allLessons.splice(index, 1);
+
+        // remove previous video
+        if (removed && removed.length && removed[0].video) {
+            let res = await axios.post(
+                `/api/course/video-remove/${values.instructor._id}`,
+                lessone.video
+            );
+        }
+
+        setValues({ ...values, lessons: allLessons });
+        // console.log("removed", removed, "slug", slug);`
+        const { data } = await axios.put(
+            `/api/course/${slug}/${removed[0]._id}`
+        );
+        if (data.ok) alert("Deleted");
+    };
+
     useEffect(() => {
         dispatch(getCourseDetails(slug));
 
@@ -166,6 +188,7 @@ const UpdateCourse = () => {
                                 setPreview={setPreview}
                                 setlessone={setlessone}
                                 setOpenLessone={setOpenLessone}
+                                handleDeleteLesson={handleDeleteLesson}
                             />
                         </div>
                     </div>
