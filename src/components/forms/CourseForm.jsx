@@ -1,4 +1,5 @@
 import React from "react";
+import ButtonLoader from "../layout/buttonLoader/ButtonLoader";
 
 const CourseForm = ({
     handleSubmit,
@@ -63,7 +64,7 @@ const CourseForm = ({
                     </label>
                     <select
                         className="border-b-2 border-gray-500 bg-transparent outline-none py-2 px-4 focus:border-green-500"
-                        value={values.paid}
+                        value={values?.paid}
                         name="paid"
                         onChange={handleChange}
                     >
@@ -138,7 +139,7 @@ const CourseForm = ({
                     className="py-2 px-4 rounded-full bg-green-500 md:w-2/4 w-3/4 mx-auto"
                     loading={values.loading}
                 >
-                    {values.loading ? "Saving..." : "Save & Continue"}
+                    {values.loading ? <ButtonLoader /> : "Save & Continue"}
                 </button>
             </form>
         </div>

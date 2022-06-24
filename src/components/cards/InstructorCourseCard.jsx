@@ -31,7 +31,7 @@ const InstructorCourseCard = ({ course }) => {
                             Lessone {course?.lessons?.length}
                         </p>
                         <p className="text-pink-500 font-bold">
-                            {course?.price ? `$ ${course?.price}` : "Free"}
+                            {course?.paid ? `$ ${course?.price}` : "Free"}
                         </p>
                     </div>
                 </div>

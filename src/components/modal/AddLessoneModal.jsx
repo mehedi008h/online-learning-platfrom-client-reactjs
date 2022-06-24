@@ -1,5 +1,6 @@
 import React from "react";
 import { IoIosClose } from "react-icons/io";
+import ButtonLoader from "../layout/buttonLoader/ButtonLoader";
 
 const AddLessoneModal = ({
     setVisible,
@@ -11,6 +12,7 @@ const AddLessoneModal = ({
     handleVideo,
     progress,
     handleVideoRemove,
+    lessoneLoading,
 }) => {
     return (
         <div
@@ -97,22 +99,22 @@ const AddLessoneModal = ({
                     )} */}
                         </div>
 
-                        {/* <div className="text-center my-2">
-                    {progress > 0 && (
-                        <Progress
-                            className="flex justify-center pt-2"
-                            percent={progress}
-                            steps={10}
-                        />
-                    )}
-                </div> */}
-                        <div className="mt-4 mx-auto">
+                        <div
+                            style={{ width: `${progress}%` }}
+                            className="h-1 bg-black rounded-full"
+                        ></div>
+
+                        <div className="mt-4 w-2/4 mx-auto">
                             <button
                                 onClick={handleAddLesson}
                                 loading={uploading}
-                                className="bg-green-500 py-2 px-4 rounded-full text-white"
+                                className="bg-green-500 w-full py-2 px-4 rounded-full text-white"
                             >
-                                Update Lessone
+                                {lessoneLoading ? (
+                                    <ButtonLoader />
+                                ) : (
+                                    "Upload Lessone"
+                                )}
                             </button>
                         </div>
                     </form>

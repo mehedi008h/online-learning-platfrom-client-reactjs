@@ -117,11 +117,11 @@ const CourseDetails = () => {
                                 handlePaidEnrollment={handlePaidEnrollment}
                                 status={status}
                             />
-                            <div className="w-3/5 mx-auto my-6">
-                                <CourseDescription course={course} />
-                            </div>
+
+                            <CourseDescription course={course} />
+
                             <Instructor course={course} />
-                            <div className="w-3/5 mx-auto my-6">
+                            <div className="md:w-3/5 lg:w-3/5 w-full px-6 md:px-0 lg:px-0 mx-auto my-6">
                                 <CourseLessone
                                     course={course}
                                     setOpen={setOpen}

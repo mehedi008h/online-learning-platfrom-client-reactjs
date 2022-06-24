@@ -19,7 +19,7 @@ const Course = () => {
         }
     }, [dispatch, error]);
     return (
-        <div className="mt-20">
+        <div className="mt-20 mb-8">
             <div className="md:w-3/4 w-4/5 mx-auto">
                 <div className="flex justify-between items-center">
                     <h3 className="text-lg font-semibold tracking-wide">

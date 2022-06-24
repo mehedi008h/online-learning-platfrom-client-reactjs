@@ -4,13 +4,25 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { clearErrors, getCourseDetails } from "../../actions/courseActions";
+import swal from "sweetalert";
+import {
+    addLessone,
+    clearErrors,
+    getCourseDetails,
+    publishCourse,
+    unpublishCourse,
+} from "../../actions/courseActions";
 import CourseDescription from "../../components/cards/CourseDescription";
 import CourseLessone from "../../components/cards/CourseLessone";
+import CourseTools from "../../components/cards/CourseTools";
 import InstructorCourseDetailsHeader from "../../components/cards/InstructorCourseDetailsHeader";
 import Loader from "../../components/layout/loader/Loader";
 import AddLessoneModal from "../../components/modal/AddLessoneModal";
 import PreviewModal from "../../components/modal/PreviewModal";
+import {
+    ADD_LESSONE_RESET,
+    COURSE_PUBLISH_RESET,
+} from "../../constants/courseConstants";
 
 const InstructorCourseDetails = () => {
     const [open, setOpen] = useState(false);
@@ -30,8 +42,19 @@ const InstructorCourseDetails = () => {
     // student count
     const [students, setStudents] = useState(0);
 
+    // course details state
     const { loading, error, course } = useSelector(
         (state) => state.courseDetails
+    );
+
+    // add lessone state
+    const { loading: lessoneLoading, success } = useSelector(
+        (state) => state.addLessone
+    );
+
+    // course publish unpublish state
+    const { loading: publishLoading, message } = useSelector(
+        (state) => state.coursePublish
     );
 
     const dispatch = useDispatch();
@@ -47,20 +70,14 @@ const InstructorCourseDetails = () => {
     // FUNCTIONS FOR ADD LESSON
     const handleAddLesson = async (e) => {
         e.preventDefault();
-        // console.log(values);
-        try {
-            const { data } = await axios.post(
-                `/api/course/lesson/${slug}/${course.instructor._id}`,
-                values
-            );
-            // console.log(data)
-            setVisible(false);
-            setUploadButtonText("Upload video");
-            toast("Lesson added");
-            setValues({ ...values, title: "", content: "", video: {} });
-        } catch (err) {
-            toast("Lesson add failed");
-        }
+
+        const lessoneData = {
+            title: values?.title,
+            content: values?.content,
+            video: values?.video,
+        };
+
+        dispatch(addLessone(slug, course?.instructor?._id, lessoneData));
     };
 
     const handleVideo = async (e) => {
@@ -87,7 +104,7 @@ const InstructorCourseDetails = () => {
             setUploading(false);
         } catch (err) {
             setUploading(false);
-            toast("Video upload failed");
+            toast.error("Video upload failed");
         }
     };
 
@@ -108,35 +125,43 @@ const InstructorCourseDetails = () => {
         }
     };
 
-    const handlePublish = async (e, courseId) => {
-        try {
-            let answer = window.confirm(
-                "Once you publsih your course, it will be live in the marketplace for users to enroll"
-            );
-            if (!answer) return;
-            const { data } = await axios.put(`/api/course/publish/${courseId}`);
-            toast("Congrats! Your course is live");
-            dispatch(getCourseDetails(courseId));
-        } catch (err) {
-            toast("Course publish failed. Try again");
-        }
+    // FUNCTIONS FOR PUBLISH COURSE
+    const handlePublish = async (courseId) => {
+        swal({
+            title: "Are you sure?",
+            text: "Once Publish, your course will be live!",
+            icon: "warning",
+            buttons: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                dispatch(publishCourse(courseId));
+                swal("Poof! Your course will live!", {
+                    icon: "success",
+                });
+            } else {
+                swal("Your course not Publish!");
+            }
+        });
     };
 
-    const handleUnpublish = async (e, courseId) => {
-        try {
-            let answer = window.confirm(
-                "Once you unpublsih your course, it will no be available for users to enroll"
-            );
-            if (!answer) return;
-            const { data } = await axios.put(
-                `/api/course/unpublish/${courseId}`
-            );
-
-            toast("Your course is unpublished");
-            dispatch(getCourseDetails(courseId));
-        } catch (err) {
-            toast("Course publish failed. Try again");
-        }
+    // FUNCTIONS FOR UNPUBLISH COURSE
+    const handleUnpublish = async (courseId) => {
+        swal({
+            title: "Are you sure?",
+            text: "Once Unpublish, your course will not be live!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                dispatch(unpublishCourse(courseId));
+                swal("Poof! Your course will be unpublish", {
+                    icon: "success",
+                });
+            } else {
+                swal("Your course live yet!");
+            }
+        });
     };
 
     useEffect(() => {
@@ -146,7 +171,17 @@ const InstructorCourseDetails = () => {
             console.log(error);
             dispatch(clearErrors());
         }
-    }, [dispatch, slug, error]);
+
+        if (success) {
+            toast.success("Lessone Added Successfully.");
+            setVisible(false);
+            dispatch({ type: ADD_LESSONE_RESET });
+        }
+
+        if (message) {
+            dispatch({ type: COURSE_PUBLISH_RESET });
+        }
+    }, [dispatch, slug, error, success, message]);
 
     return (
         <div className="mt-16">
@@ -163,48 +198,17 @@ const InstructorCourseDetails = () => {
                                 setOpen={setOpen}
                                 setPreview={setPreview}
                             />
-                            <div className="w-3/5 mx-auto my-6">
-                                <div className="flex gap-4 justify-center sm:flex-col md:flex-row lg:flex-row">
-                                    <button
-                                        onClick={() => setVisible(true)}
-                                        className="bg-green-500 py-1 px-4 rounded-full text-white"
-                                    >
-                                        Add Lessone
-                                    </button>
+                            <CourseTools
+                                course={course}
+                                setVisible={setVisible}
+                                handlePublish={handlePublish}
+                                handleUnpublish={handleUnpublish}
+                                publishLoading={publishLoading}
+                            />
 
-                                    {course?.published ? (
-                                        <>
-                                            <button
-                                                onClick={(e) =>
-                                                    handleUnpublish(
-                                                        e,
-                                                        course._id
-                                                    )
-                                                }
-                                                className="bg-green-500 py-1 px-4 rounded-full text-white"
-                                            >
-                                                Unpublish
-                                            </button>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <button
-                                                onClick={(e) =>
-                                                    handlePublish(e, course._id)
-                                                }
-                                                className="bg-green-500 py-1 px-4 rounded-full text-white"
-                                            >
-                                                Publish
-                                            </button>
-                                        </>
-                                    )}
-                                </div>
-                            </div>
-                            <div className="w-3/5 mx-auto my-6">
-                                <CourseDescription course={course} />
-                            </div>
+                            <CourseDescription course={course} />
 
-                            <div className="w-3/5 mx-auto my-6">
+                            <div className="md:w-3/5 lg:w-3/5 w-full px-6 md:px-0 lg:px-0 mx-auto my-6">
                                 <CourseLessone
                                     course={course}
                                     setOpen={setOpen}
@@ -238,6 +242,7 @@ const InstructorCourseDetails = () => {
                                     handleVideo={handleVideo}
                                     progress={progress}
                                     handleVideoRemove={handleVideoRemove}
+                                    lessoneLoading={lessoneLoading}
                                 />
                             </div>
                         )}

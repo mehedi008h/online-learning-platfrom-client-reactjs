@@ -3,9 +3,15 @@ import { useNavigate } from "react-router-dom";
 import CourseForm from "../../components/forms/CourseForm";
 import Resizer from "react-image-file-resizer";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { clearErrors, newCourse } from "../../actions/courseActions";
+import { NEW_COURSE_RESET } from "../../constants/courseConstants";
+import { useEffect } from "react";
 
 const CreateCourse = () => {
+    const { loading, error, success } = useSelector((state) => state.newCourse);
+
     // state
     const [values, setValues] = useState({
         name: "",
@@ -14,7 +20,7 @@ const CreateCourse = () => {
         uploading: false,
         paid: true,
         category: "",
-        loading: false,
+        loading: loading,
     });
 
     const [image, setImage] = useState("");
@@ -23,6 +29,7 @@ const CreateCourse = () => {
 
     // router
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });
@@ -81,20 +88,35 @@ const CreateCourse = () => {
         }
     };
 
+    console.log("Valusess", values, image);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            // console.log(values);
-            const { data } = await axios.post("/api/course", {
-                ...values,
-                image,
-            });
-            toast("Great! Now you can start adding lessons");
-            navigate("/instructor");
-        } catch (err) {
-            toast(err.response.data);
-        }
+
+        const formData = {
+            name: values?.name,
+            price: values?.price,
+            description: values?.description,
+            category: values?.category,
+            paid: values?.paid,
+            image: image,
+        };
+
+        dispatch(newCourse(formData));
     };
+
+    useEffect(() => {
+        if (error) {
+            toast.error(error);
+            dispatch(clearErrors());
+        }
+
+        if (success) {
+            navigate("/instructor");
+            toast.success("Course created successfully");
+            dispatch({ type: NEW_COURSE_RESET });
+        }
+    }, [dispatch, error, success, navigate]);
     return (
         <div className="relative">
             <div

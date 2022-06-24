@@ -1,4 +1,8 @@
 import {
+    ADD_LESSONE_FAIL,
+    ADD_LESSONE_REQUEST,
+    ADD_LESSONE_RESET,
+    ADD_LESSONE_SUCCESS,
     ALL_COURSE_FAIL,
     ALL_COURSE_REQUEST,
     ALL_COURSE_SUCCESS,
@@ -9,6 +13,13 @@ import {
     COURSE_DETAILS_FAIL,
     COURSE_DETAILS_REQUEST,
     COURSE_DETAILS_SUCCESS,
+    COURSE_PUBLISH_FAIL,
+    COURSE_PUBLISH_REQUEST,
+    COURSE_PUBLISH_RESET,
+    COURSE_PUBLISH_SUCCESS,
+    COURSE_UNPUBLISH_FAIL,
+    COURSE_UNPUBLISH_REQUEST,
+    COURSE_UNPUBLISH_SUCCESS,
     FREE_ENROLLMENT_FAIL,
     FREE_ENROLLMENT_REQUEST,
     FREE_ENROLLMENT_SUCCESS,
@@ -23,6 +34,10 @@ import {
     MARK_INCOMPLETE_REQUEST,
     MARK_INCOMPLETE_RESET,
     MARK_INCOMPLETE_SUCCESS,
+    NEW_COURSE_FAIL,
+    NEW_COURSE_REQUEST,
+    NEW_COURSE_RESET,
+    NEW_COURSE_SUCCESS,
     PAID_ENROLLMENT_FAIL,
     PAID_ENROLLMENT_REQUEST,
     PAID_ENROLLMENT_SUCCESS,
@@ -52,6 +67,83 @@ export const courseReducer = (state = { courses: [] }, action) => {
             return {
                 loading: false,
                 error: action.payload,
+            };
+
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null,
+            };
+
+        default:
+            return state;
+    }
+};
+
+export const newCourseReducer = (state = { course: {} }, action) => {
+    switch (action.type) {
+        case NEW_COURSE_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+
+        case NEW_COURSE_SUCCESS:
+            return {
+                loading: false,
+                success: action.payload.success,
+                course: action.payload.course,
+            };
+
+        case NEW_COURSE_FAIL:
+            return {
+                ...state,
+                error: action.payload,
+            };
+
+        case NEW_COURSE_RESET:
+            return {
+                ...state,
+                success: false,
+            };
+
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null,
+            };
+
+        default:
+            return state;
+    }
+};
+
+export const addLessoneReducer = (state = { lessone: {} }, action) => {
+    switch (action.type) {
+        case ADD_LESSONE_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+
+        case ADD_LESSONE_SUCCESS:
+            return {
+                loading: false,
+                success: action.payload.success,
+                lessone: action.payload.upload,
+            };
+
+        case ADD_LESSONE_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            };
+
+        case ADD_LESSONE_RESET:
+            return {
+                ...state,
+                success: false,
             };
 
         case CLEAR_ERRORS:
@@ -95,6 +187,49 @@ export const courseDetailsReducer = (state = { course: {} }, action) => {
                 ...state,
                 loading: false,
                 error: action.payload,
+            };
+
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null,
+            };
+
+        default:
+            return state;
+    }
+};
+
+export const coursePublishReducer = (state = { course: {} }, action) => {
+    switch (action.type) {
+        case COURSE_PUBLISH_REQUEST:
+        case COURSE_UNPUBLISH_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+
+        case COURSE_PUBLISH_SUCCESS:
+        case COURSE_UNPUBLISH_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                course: action.payload.update,
+                message: action.payload.message,
+            };
+
+        case COURSE_PUBLISH_FAIL:
+        case COURSE_UNPUBLISH_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            };
+
+        case COURSE_PUBLISH_RESET:
+            return {
+                ...state,
+                message: null,
             };
 
         case CLEAR_ERRORS:

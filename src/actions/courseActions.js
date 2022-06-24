@@ -1,5 +1,8 @@
 import axios from "axios";
 import {
+    ADD_LESSONE_FAIL,
+    ADD_LESSONE_REQUEST,
+    ADD_LESSONE_SUCCESS,
     ALL_COURSE_FAIL,
     ALL_COURSE_REQUEST,
     ALL_COURSE_SUCCESS,
@@ -10,6 +13,12 @@ import {
     COURSE_DETAILS_FAIL,
     COURSE_DETAILS_REQUEST,
     COURSE_DETAILS_SUCCESS,
+    COURSE_PUBLISH_FAIL,
+    COURSE_PUBLISH_REQUEST,
+    COURSE_PUBLISH_SUCCESS,
+    COURSE_UNPUBLISH_FAIL,
+    COURSE_UNPUBLISH_REQUEST,
+    COURSE_UNPUBLISH_SUCCESS,
     FREE_ENROLLMENT_FAIL,
     FREE_ENROLLMENT_REQUEST,
     FREE_ENROLLMENT_SUCCESS,
@@ -22,6 +31,9 @@ import {
     MARK_INCOMPLETE_FAIL,
     MARK_INCOMPLETE_REQUEST,
     MARK_INCOMPLETE_SUCCESS,
+    NEW_COURSE_FAIL,
+    NEW_COURSE_REQUEST,
+    NEW_COURSE_SUCCESS,
     PAID_ENROLLMENT_FAIL,
     PAID_ENROLLMENT_REQUEST,
     PAID_ENROLLMENT_SUCCESS,
@@ -46,6 +58,123 @@ export const getCourses = () => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: ALL_COURSE_FAIL,
+            payload: error.response.data.message,
+        });
+    }
+};
+
+// create new produtc by admin
+export const newCourse = (courseData) => async (dispatch) => {
+    try {
+        dispatch({ type: NEW_COURSE_REQUEST });
+
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
+
+        const { data } = await axios.post(`/api/course`, courseData, config);
+
+        dispatch({
+            type: NEW_COURSE_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: NEW_COURSE_FAIL,
+            payload: error.response.data.message,
+        });
+    }
+};
+
+// create new produtc by admin
+export const addLessone =
+    (slug, instructorId, lessoneData) => async (dispatch) => {
+        try {
+            dispatch({ type: ADD_LESSONE_REQUEST });
+
+            const config = {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            };
+
+            const { data } = await axios.post(
+                `/api/course/lesson/${slug}/${instructorId}`,
+                lessoneData,
+                config
+            );
+
+            console.log("Lessone Data", data);
+
+            dispatch({
+                type: ADD_LESSONE_SUCCESS,
+                payload: data,
+            });
+        } catch (error) {
+            dispatch({
+                type: ADD_LESSONE_FAIL,
+                payload: error.response.data.message,
+            });
+        }
+    };
+
+// create new produtc by admin
+export const publishCourse = (courseId) => async (dispatch) => {
+    try {
+        dispatch({ type: COURSE_PUBLISH_REQUEST });
+
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
+
+        const { data } = await axios.put(
+            `/api/course/publish/${courseId}`,
+            config
+        );
+
+        console.log("Publish Course", data);
+
+        dispatch({
+            type: COURSE_PUBLISH_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: COURSE_PUBLISH_FAIL,
+            payload: error.response.data.message,
+        });
+    }
+};
+
+// create new produtc by admin
+export const unpublishCourse = (courseId) => async (dispatch) => {
+    try {
+        dispatch({ type: COURSE_UNPUBLISH_REQUEST });
+
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
+
+        const { data } = await axios.put(
+            `/api/course/unpublish/${courseId}`,
+            config
+        );
+
+        console.log("UNPublish Course", data);
+
+        dispatch({
+            type: COURSE_UNPUBLISH_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: COURSE_UNPUBLISH_FAIL,
             payload: error.response.data.message,
         });
     }
