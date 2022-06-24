@@ -1,12 +1,14 @@
 import React from "react";
 import ReactPlayer from "react-player";
 import { BsPlayCircle } from "react-icons/bs";
+import ButtonLoader from "../layout/buttonLoader/ButtonLoader";
 
 const CoursePlayer = ({
     lessone,
     markIncompleted,
     markCompleted,
-    completedLessons,
+    completedLessone,
+    lessoneLoading,
 }) => {
     console.log("Lessone :", lessone);
     return (
@@ -21,23 +23,35 @@ const CoursePlayer = ({
                     />
                     <div className="p-4">
                         <span>
-                            {completedLessons?.includes(lessone?._id) ? (
-                                <span
-                                    className="float-right cursor-pointer text-base text-red-500"
-                                    onClick={markIncompleted}
-                                >
-                                    Mark as incomplete
-                                </span>
+                            {lessoneLoading ? (
+                                <>
+                                    <ButtonLoader />
+                                </>
                             ) : (
-                                <span
-                                    className="float-right cursor-pointer text-base text-blue-500"
-                                    onClick={markCompleted}
-                                >
-                                    Mark as completed
-                                </span>
+                                <>
+                                    {completedLessone?.includes(
+                                        lessone?._id
+                                    ) ? (
+                                        <span
+                                            className="float-right cursor-pointer text-base text-red-500"
+                                            onClick={markIncompleted}
+                                        >
+                                            Mark as incomplete
+                                        </span>
+                                    ) : (
+                                        <span
+                                            className="float-right cursor-pointer text-base text-blue-500"
+                                            onClick={markCompleted}
+                                        >
+                                            Mark as completed
+                                        </span>
+                                    )}
+                                </>
                             )}
                         </span>
-                        <h3 className="text-xl">{lessone?.title}</h3>
+                        <h3 className="text-xl">
+                            {lessone?.title.substring(0, 50)} ...
+                        </h3>
                         <p className="my-4 text-gray-500">{lessone?.content}</p>
                     </div>
                 </>

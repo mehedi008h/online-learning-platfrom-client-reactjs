@@ -4,7 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { loadStripe } from "@stripe/stripe-js";
-import { clearErrors, getCourseDetails } from "../../actions/courseActions";
+import {
+    checkEnrollment,
+    clearErrors,
+    freeEnrollment,
+    getCourseDetails,
+} from "../../actions/courseActions";
 import CourseDescription from "../../components/cards/CourseDescription";
 import CourseDetailsHeader from "../../components/cards/CourseDetailsHeader";
 import CourseLessone from "../../components/cards/CourseLessone";
@@ -17,25 +22,20 @@ const CourseDetails = () => {
     const [open, setOpen] = useState(false);
     const [preview, setPreview] = useState("");
 
-    const [enrolled, setEnrolled] = useState({});
-
-    console.log("Enroll :", enrolled);
-
-    const { loading, error, course } = useSelector(
+    // course details state
+    const { loading, error, course, status } = useSelector(
         (state) => state.courseDetails
     );
+
+    // user state
     const { user } = useSelector((state) => state.auth);
+
+    // enroll state
+    const { success } = useSelector((state) => state.enrollment);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
     let { slug } = useParams();
-
-    const checkEnrollment = async () => {
-        const { data } = await axios.get(
-            `/api/check-enrollment/${course?._id}`
-        );
-        setEnrolled(data);
-    };
 
     const handlePaidEnrollment = async (e) => {
         e.preventDefault();
@@ -43,8 +43,9 @@ const CourseDetails = () => {
         try {
             if (!user) return navigate("/login");
             // if user is already enrolled, redirect to course page
-            if (enrolled.status)
-                return navigate(`/user/course/${enrolled.course.slug}`);
+            if (status) return navigate(`/user/course/${course?.slug}`);
+
+            // dispatch(paidEnrollment(course?._id));
             // console.log("enroll to this course > ", course._id);
             const { data } = await axios.post(
                 `/api/paid-enrollment/${course._id}`
@@ -53,28 +54,29 @@ const CourseDetails = () => {
             console.log("Pay :", data);
             // load stripe for payment
             // on successful payment, user will get redirected to /stripe/success page
-            const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY);
+            let stripe = await loadStripe(
+                "pk_test_51KN85iIdr2NcIiWHKR9b6xuQX7E2gWa2TjyfOnusxouxuSfZynEsFHkC5JaHIIRVzjwOey68JexeEh5ge8CfMl1d00G4PHnGdk"
+            );
             stripe.redirectToCheckout({ sessionId: data.id });
         } catch (err) {
             toast("Enrollment failed, Try again.");
+            console.log("Stripe error", err);
         }
     };
 
+    // free enrollment course
     const handleFreeEnrollment = async (e) => {
         e.preventDefault();
 
         try {
             if (!user) return navigate("/login");
             // if user is already enrolled, redirect to course page
-            if (enrolled.status)
-                return navigate(`/user/course/${enrolled.course.slug}`);
+            if (status) return navigate(`/user/course/${course?.slug}`);
             // console.log("enroll to this course > ", course._id);
-            const { data } = await axios.post(
-                `/api/free-enrollment/${course._id}`
-            );
-            toast(data.message);
+            dispatch(freeEnrollment(course?._id));
+
             // redirect user to course page
-            navigate(`/user/course/${data.course.slug}`);
+            // navigate(`/user/course/${data.course.slug}`);
         } catch (err) {
             toast("Enrollment failed, Try again.");
         }
@@ -83,13 +85,19 @@ const CourseDetails = () => {
     useEffect(() => {
         dispatch(getCourseDetails(slug));
 
-        if (user && course) checkEnrollment();
+        if (user) {
+            dispatch(checkEnrollment(slug));
+        }
+
+        if (success) {
+            toast.success("Successfully enroled course.");
+        }
 
         if (error) {
             console.log(error);
             dispatch(clearErrors());
         }
-    }, [dispatch, slug, error]);
+    }, [dispatch, slug, error, user, success]);
 
     return (
         <div className="mt-16">
@@ -107,8 +115,7 @@ const CourseDetails = () => {
                                 setPreview={setPreview}
                                 handleFreeEnrollment={handleFreeEnrollment}
                                 handlePaidEnrollment={handlePaidEnrollment}
-                                enrolled={enrolled}
-                                setEnrolled={setEnrolled}
+                                status={status}
                             />
                             <div className="w-3/5 mx-auto my-6">
                                 <CourseDescription course={course} />

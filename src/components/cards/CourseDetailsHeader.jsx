@@ -8,10 +8,11 @@ const CourseDetailsHeader = ({
     setPreview,
     handleFreeEnrollment,
     handlePaidEnrollment,
-    enrolled,
-    setEnrolled,
+    status,
 }) => {
     const { user } = useSelector((state) => state.auth);
+
+    console.log("Sta hhh", status);
 
     return (
         <div
@@ -45,7 +46,7 @@ const CourseDetailsHeader = ({
                     >
                         <BsCart4 size={20} />
                         {user
-                            ? enrolled.status
+                            ? status
                                 ? "Go to course"
                                 : "Enrole"
                             : "Login to enroll"}

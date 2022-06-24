@@ -4,60 +4,77 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { clearErrors, getCourseDetails } from "../../actions/courseActions";
+import {
+    clearErrors,
+    getCompletedLessone,
+    getCourseDetails,
+    // markCompleteLessone,
+    // markInCompleteLessone,
+} from "../../actions/courseActions";
 import CoursePlayer from "../../components/cards/CoursePlayer";
 import LessoneList from "../../components/cards/LessoneList";
 import Loader from "../../components/layout/loader/Loader";
+import {
+    MARK_COMPLETE_RESET,
+    MARK_INCOMPLETE_RESET,
+} from "../../constants/courseConstants";
 
 const UserCourseDetails = () => {
-    const [lessone, setLessone] = useState({});
-    const [completedLessons, setCompletedLessons] = useState([]);
-    // force state update
-    const [updateState, setUpdateState] = useState(false);
+    const [lessone, setLessone] = useState([]);
 
     const { loading, error, course } = useSelector(
         (state) => state.courseDetails
     );
 
+    const {
+        loading: lessoneLoading,
+        completedLessone,
+        complete,
+        inComplete,
+    } = useSelector((state) => state.lessoneComplete);
+
+    console.log("Redux", completedLessone);
+
     const dispatch = useDispatch();
     let { slug } = useParams();
 
-    const loadCompletedLessons = async () => {
-        const { data } = await axios.post(`/api/list-completed`, {
-            courseId: course._id,
-        });
-        console.log("COMPLETED LESSONS => ", data);
-        setCompletedLessons(data);
-    };
-
     const markCompleted = async () => {
+        // dispatch(markCompleteLessone(course?._id, lessone?._id));
         const { data } = await axios.post(`/api/mark-completed`, {
             courseId: course._id,
             lessonId: lessone._id,
         });
-        console.log(data);
-        setCompletedLessons([...completedLessons, lessone._id]);
+        console.log("Mark Complete :", data);
+        dispatch({ type: MARK_COMPLETE_RESET });
+        // setCompletedLessons([...completedLessons, lessone._id]);
     };
 
     const markIncompleted = async () => {
-        try {
-            const { data } = await axios.post("/api/mark-incomplete", {
-                courseId: course._id,
-                lessonId: lessone._id,
-            });
-            console.log(data);
-            const all = completedLessons;
-            console.log("ALL => ", all);
-            const index = all.indexOf(lessone._id);
-            if (index > -1) {
-                all.splice(index, 1);
-                console.log("ALL WITHOUT REMOVED => ", all);
-                setCompletedLessons(all);
-                setUpdateState(!updateState);
-            }
-        } catch (err) {
-            console.log(err);
-        }
+        // dispatch(markInCompleteLessone(course?._id, lessone?._id));
+        const { data } = await axios.post("/api/mark-incomplete", {
+            courseId: course._id,
+            lessonId: lessone._id,
+        });
+        console.log("Mark INComplete :", data);
+        dispatch({ type: MARK_INCOMPLETE_RESET });
+        // try {
+        //     const { data } = await axios.post("/api/mark-incomplete", {
+        //         courseId: course._id,
+        //         lessonId: lessone._id,
+        //     });
+        //     console.log("Mark INComplete :", data);
+        //     const all = completedLessone;
+        //     console.log("ALL => ", all);
+        //     const index = all.indexOf(lessone._id);
+        //     if (index > -1) {
+        //         all.splice(index, 1);
+        //         console.log("ALL WITHOUT REMOVED => ", all);
+        //         // setCompletedLessons(all);
+        //         setUpdateState(!updateState);
+        //     }
+        // } catch (err) {
+        //     console.log(err);
+        // }
     };
 
     useEffect(() => {
@@ -67,9 +84,20 @@ const UserCourseDetails = () => {
             toast.error(error);
             dispatch(clearErrors());
         }
-
-        if (course) loadCompletedLessons();
     }, [dispatch, slug, error]);
+
+    useEffect(() => {
+        dispatch(getCompletedLessone(course._id));
+
+        if (complete) {
+            alert.success("Mark Complete Success!");
+            dispatch({ type: MARK_COMPLETE_RESET });
+        }
+        if (inComplete) {
+            alert.success("Mark Incomplete Success!");
+            dispatch({ type: MARK_INCOMPLETE_RESET });
+        }
+    }, [dispatch, course._id, complete, inComplete]);
     return (
         <div className="flex min-h-screen bg-gray-100">
             <div className="md:w-4/5 lg:w-4/5  w-full sm:px-4 px-4 md:px-0 lg:px-0 mx-auto mt-20 mb-6">
@@ -85,14 +113,16 @@ const UserCourseDetails = () => {
                                     lessone={lessone}
                                     markCompleted={markCompleted}
                                     markIncompleted={markIncompleted}
-                                    completedLessons={completedLessons}
+                                    completedLessone={completedLessone}
+                                    lessoneLoading={lessoneLoading}
                                 />
                             </div>
                             <div className="md:col-span-4 lg:col-span-4 col-span-12">
                                 <LessoneList
                                     lessons={course?.lessons}
                                     setLessone={setLessone}
-                                    completedLessons={completedLessons}
+                                    completedLessone={completedLessone}
+                                    lessoneLoading={lessoneLoading}
                                 />
                             </div>
                         </div>

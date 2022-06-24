@@ -1,7 +1,13 @@
 import React from "react";
 import { AiFillCheckCircle, AiFillMinusCircle } from "react-icons/ai";
+import ButtonLoader from "../layout/buttonLoader/ButtonLoader";
 
-const LessoneList = ({ lessons, setLessone, completedLessons }) => {
+const LessoneList = ({
+    lessons,
+    setLessone,
+    completedLessone,
+    lessoneLoading,
+}) => {
     return (
         <div className="bg-white p-4 shadow rounded-md">
             <h1 className="font-semibold text-xl">
@@ -17,11 +23,22 @@ const LessoneList = ({ lessons, setLessone, completedLessons }) => {
                             key={lesson?._id}
                         >
                             <div className="flex gap-4 items-center">
-                                {completedLessons &&
-                                completedLessons?.includes(lesson?._id) ? (
-                                    <AiFillCheckCircle color="green" />
+                                {lessoneLoading ? (
+                                    <>
+                                        {" "}
+                                        <ButtonLoader />{" "}
+                                    </>
                                 ) : (
-                                    <AiFillMinusCircle color="black" />
+                                    <>
+                                        {completedLessone &&
+                                        completedLessone?.includes(
+                                            lesson?._id
+                                        ) ? (
+                                            <AiFillCheckCircle color="green" />
+                                        ) : (
+                                            <AiFillMinusCircle color="black" />
+                                        )}
+                                    </>
                                 )}
 
                                 <h3 className="text-lg max-w-max">

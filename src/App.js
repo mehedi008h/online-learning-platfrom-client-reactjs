@@ -18,6 +18,7 @@ import "react-toastify/dist/ReactToastify.css";
 import CreateCourse from "./pages/instructor/CreateCourse";
 import UserHome from "./pages/user/UserHome";
 import UserCourseDetails from "./pages/user/UserCourseDetails";
+import Success from "./pages/stripe/Success";
 
 function App() {
     useEffect(() => {
@@ -94,6 +95,15 @@ function App() {
                         element={
                             <ProtectedRoute>
                                 <UserCourseDetails />
+                            </ProtectedRoute>
+                        }
+                    />
+                    {/* stripe  */}
+                    <Route
+                        path="/stripe/success/:id"
+                        element={
+                            <ProtectedRoute>
+                                <Success />
                             </ProtectedRoute>
                         }
                     />

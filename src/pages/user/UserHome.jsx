@@ -23,9 +23,9 @@ const UserHome = () => {
                     <h3 className="text-lg font-semibold tracking-wide">
                         Total Course : <b>{courses?.length}</b>
                     </h3>
-                    <button className="bg-green-600 bg-opacity-20 text-green-700 font-semibold text-base hover:bg-opacity-25  py-1 px-4 rounded-md">
+                    {/* <button className="bg-green-600 bg-opacity-20 text-green-700 font-semibold text-base hover:bg-opacity-25  py-1 px-4 rounded-md">
                         Create Course
-                    </button>
+                    </button> */}
                 </div>
                 <hr className="my-4 border-green-600" />
                 {loading ? (

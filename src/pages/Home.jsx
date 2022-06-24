@@ -24,8 +24,8 @@ const Home = () => {
                 </>
             ) : (
                 <>
-                    <div className="w-4/5 mx-auto ">
-                        <div className="grid grid-cols-12 gap-4">
+                    <div className="md:w-4/5 lg:w-4/5 w-full px-4 md:px-0 lg:px-0 mx-auto ">
+                        <div className="grid md:grid-cols-12 lg:grid-cols-12 grid-cols-none gap-4">
                             {courses &&
                                 courses.map((course) => (
                                     <div
