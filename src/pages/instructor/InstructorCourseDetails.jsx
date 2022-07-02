@@ -12,6 +12,7 @@ import {
     publishCourse,
     unpublishCourse,
 } from "../../actions/courseActions";
+import { enrolledStudentCount } from "../../actions/instructorActions";
 import CourseDescription from "../../components/cards/CourseDescription";
 import CourseLessone from "../../components/cards/CourseLessone";
 import CourseTools from "../../components/cards/CourseTools";
@@ -39,9 +40,6 @@ const InstructorCourseDetails = () => {
     const [uploadButtonText, setUploadButtonText] = useState("Upload Video");
     const [progress, setProgress] = useState(0);
 
-    // student count
-    const [students, setStudents] = useState(0);
-
     // course details state
     const { loading, error, course } = useSelector(
         (state) => state.courseDetails
@@ -57,15 +55,11 @@ const InstructorCourseDetails = () => {
         (state) => state.coursePublish
     );
 
+    // course enrolled students state
+    const { students } = useSelector((state) => state.studentCount);
+
     const dispatch = useDispatch();
     let { slug } = useParams();
-
-    const studentCount = async () => {
-        const { data } = await axios.post(`/api/instructor/student-count`, {
-            courseId: course._id,
-        });
-        setStudents(data.length);
-    };
 
     // FUNCTIONS FOR ADD LESSON
     const handleAddLesson = async (e) => {
@@ -167,6 +161,8 @@ const InstructorCourseDetails = () => {
     useEffect(() => {
         dispatch(getCourseDetails(slug));
 
+        dispatch(enrolledStudentCount(course?._id));
+
         if (error) {
             console.log(error);
             dispatch(clearErrors());
@@ -181,7 +177,7 @@ const InstructorCourseDetails = () => {
         if (message) {
             dispatch({ type: COURSE_PUBLISH_RESET });
         }
-    }, [dispatch, slug, error, success, message]);
+    }, [dispatch, slug, error, success, message, course?._id]);
 
     return (
         <div className="mt-16">
@@ -200,6 +196,7 @@ const InstructorCourseDetails = () => {
                             />
                             <CourseTools
                                 course={course}
+                                students={students}
                                 setVisible={setVisible}
                                 handlePublish={handlePublish}
                                 handleUnpublish={handleUnpublish}

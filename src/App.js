@@ -19,6 +19,9 @@ import CreateCourse from "./pages/instructor/CreateCourse";
 import UserHome from "./pages/user/UserHome";
 import UserCourseDetails from "./pages/user/UserCourseDetails";
 import Success from "./pages/stripe/Success";
+import Revenue from "./pages/instructor/Revenue";
+import BecomeInstructor from "./pages/user/BecomeInstructor";
+import Callback from "./pages/stripe/Callback";
 
 function App() {
     useEffect(() => {
@@ -79,6 +82,14 @@ function App() {
                             </ProtectedRoute>
                         }
                     />
+                    <Route
+                        path="/instructor/revenue"
+                        element={
+                            <ProtectedRoute isInstructor={true}>
+                                <Revenue />
+                            </ProtectedRoute>
+                        }
+                    />
 
                     {/* user  */}
 
@@ -95,6 +106,22 @@ function App() {
                         element={
                             <ProtectedRoute>
                                 <UserCourseDetails />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/user/become-instructor"
+                        element={
+                            <ProtectedRoute>
+                                <BecomeInstructor />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="stripe/callback"
+                        element={
+                            <ProtectedRoute>
+                                <Callback />
                             </ProtectedRoute>
                         }
                     />

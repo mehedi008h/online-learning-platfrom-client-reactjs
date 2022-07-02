@@ -4,6 +4,7 @@ import ButtonLoader from "../layout/buttonLoader/ButtonLoader";
 
 const CourseTools = ({
     course,
+    students,
     setVisible,
     handleUnpublish,
     handlePublish,
@@ -13,6 +14,14 @@ const CourseTools = ({
         <div>
             <div className="w-3/5 mx-auto my-12">
                 <div className="flex  gap-4 justify-center flex-col sm:flex-col md:flex-row lg:flex-row">
+                    <button
+                        onClick={() => setVisible(true)}
+                        className="bg-green-500 py-2 px-6 rounded-full text-white"
+                    >
+                        {students?.length > 0
+                            ? `Enrolled Students : ${students?.length}`
+                            : "No Student Enrolled Yet"}
+                    </button>
                     <button
                         onClick={() => setVisible(true)}
                         className="bg-green-500 py-2 px-4 rounded-full text-white"

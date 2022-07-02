@@ -12,8 +12,8 @@ const InstructorCourseDetailsHeader = ({ course, setOpen, setPreview }) => {
                 <h1 className="text-white font-semibold md:text-5xl sm:text-3xl text-3xl leading-relaxed tracking-wider">
                     {course?.name}
                 </h1>
-                <p className="text-gray-200 text-xl my-2 md:w-3/5 sm:w-full mx-auto leading-relaxed tracking-wider">
-                    {course?.description.substring(0, 300)} ...
+                <p className="text-gray-200 md:text-xl lg:text-xl text-base my-2 md:w-3/5 sm:w-full mx-auto leading-relaxed tracking-wider">
+                    {course?.description?.substring(0, 300)} ...
                 </p>
                 <div className="my-4 flex md:flex-row flex-col gap-4">
                     <button

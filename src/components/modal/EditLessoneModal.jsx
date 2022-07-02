@@ -1,12 +1,13 @@
 import React from "react";
 import { IoIosClose } from "react-icons/io";
-import ReactPlayer from "react-player";
 
 const EditLessoneModal = ({
     lessone,
     setOpenLessone,
     setlessone,
     handleUpdateLesson,
+    handleVideo,
+    uploadButtonText,
 }) => {
     return (
         <div
@@ -72,45 +73,39 @@ const EditLessoneModal = ({
                             ></textarea>
                         </div>
                         {/* lessone video  */}
-                        <div className="flex flex-row gap-2">
+
+                        <div className="flex flex-col w-full gap-4 p-4">
                             <div>
-                                <ReactPlayer
-                                    url={lessone?.video?.Location}
-                                    width="410px"
-                                    height="240px"
-                                    controls
+                                <label className="bg-blue-500 text-white text-center rounded-full py-2 w-full px-4">
+                                    {uploadButtonText
+                                        ? uploadButtonText
+                                        : "Upload Video"}
+                                    <input
+                                        type="file"
+                                        accept="video/*"
+                                        onChange={handleVideo}
+                                        hidden
+                                    />
+                                </label>
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <span className="pt-3 badge">Free Preview</span>
+                                <input
+                                    type="checkbox"
+                                    checked={lessone?.free_preview}
+                                    onChange={(e) =>
+                                        setlessone({
+                                            ...lessone,
+                                            free_preview:
+                                                !lessone?.free_preview,
+                                        })
+                                    }
+                                    className="float-right mt-2"
+                                    name="free_preview"
                                 />
                             </div>
-                            <div className="flex flex-col w-full gap-4 p-4">
-                                <div>
-                                    <label className="bg-blue-500 text-white text-center rounded-full py-2 w-full px-4">
-                                        Upload Video
-                                        <input
-                                            type="file"
-                                            accept="video/*"
-                                            hidden
-                                        />
-                                    </label>
-                                </div>
-                                <div className="flex justify-between items-center">
-                                    <span className="pt-3 badge">
-                                        Free Preview
-                                    </span>
-                                    <input
-                                        type="checkbox"
-                                        checked={lessone?.free_preview}
-                                        onChange={(e) =>
-                                            setlessone({
-                                                ...lessone,
-                                                free_preview: e.target.value,
-                                            })
-                                        }
-                                        className="float-right mt-2"
-                                        name="free_preview"
-                                    />
-                                </div>
-                            </div>
                         </div>
+
                         <div className="mt-4 mx-auto">
                             <button
                                 onClick={handleUpdateLesson}

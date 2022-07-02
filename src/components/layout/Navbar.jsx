@@ -5,6 +5,7 @@ import {
     AiOutlineLogin,
     AiOutlineUserAdd,
 } from "react-icons/ai";
+import { CgUserlane } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { logout } from "../../actions/authActions";
@@ -16,10 +17,10 @@ const Navbar = () => {
     const dispatch = useDispatch();
 
     const { user } = useSelector((state) => state.auth);
-    console.log("User :", user);
 
     const handleLogout = () => {
         dispatch(logout());
+        setOpen(false);
     };
     return (
         <div className="flex">
@@ -36,7 +37,8 @@ const Navbar = () => {
                     <div className="flex flex-row gap-4">
                         {user ? (
                             <>
-                                {user.role && user.role.includes("Instructor") && (
+                                {user.role &&
+                                user.role.includes("Instructor") ? (
                                     <div>
                                         <div
                                             onClick={() =>
@@ -55,6 +57,11 @@ const Navbar = () => {
                                             <>
                                                 <div className="flex flex-col bg-black py-4 rounded-md absolute top-16">
                                                     <Link
+                                                        onClick={() =>
+                                                            setInstructorOpen(
+                                                                false
+                                                            )
+                                                        }
                                                         to="/instructor"
                                                         className="flex items-center gap-1 px-6 py-2 hover:bg-gray-500 bg-opacity-50   text-white"
                                                     >
@@ -64,6 +71,11 @@ const Navbar = () => {
                                                         Dashboard
                                                     </Link>
                                                     <Link
+                                                        onClick={() =>
+                                                            setInstructorOpen(
+                                                                false
+                                                            )
+                                                        }
                                                         to="/instructor/course/new"
                                                         className="flex items-center gap-1 px-6 py-2 hover:bg-gray-500 bg-opacity-50   text-white"
                                                     >
@@ -73,7 +85,12 @@ const Navbar = () => {
                                                         Create Course
                                                     </Link>
                                                     <Link
-                                                        to="/instructor"
+                                                        onClick={() =>
+                                                            setInstructorOpen(
+                                                                false
+                                                            )
+                                                        }
+                                                        to="/instructor/revenue"
                                                         className="flex items-center gap-1 px-6 py-2 hover:bg-gray-500 bg-opacity-50   text-white"
                                                     >
                                                         <AiOutlineLogin
@@ -85,6 +102,16 @@ const Navbar = () => {
                                             </>
                                         )}
                                     </div>
+                                ) : (
+                                    <>
+                                        <Link
+                                            to="/user/become-instructor"
+                                            className="flex items-center gap-1 px-6 py-2    text-white"
+                                        >
+                                            <CgUserlane size={19} />
+                                            Become Instructor
+                                        </Link>
+                                    </>
                                 )}
                                 <div>
                                     <div
@@ -103,6 +130,9 @@ const Navbar = () => {
                                         <>
                                             <div className="flex flex-col bg-black py-4 rounded-md absolute top-16">
                                                 <Link
+                                                    onClick={() =>
+                                                        setOpen(false)
+                                                    }
                                                     to="/user"
                                                     className="flex items-center gap-1 px-6 py-2 hover:bg-gray-500 bg-opacity-50   text-white"
                                                 >

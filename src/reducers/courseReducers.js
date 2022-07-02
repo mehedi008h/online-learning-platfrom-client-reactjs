@@ -20,6 +20,14 @@ import {
     COURSE_UNPUBLISH_FAIL,
     COURSE_UNPUBLISH_REQUEST,
     COURSE_UNPUBLISH_SUCCESS,
+    DELETE_COURSE_FAIL,
+    DELETE_COURSE_REQUEST,
+    DELETE_COURSE_RESET,
+    DELETE_COURSE_SUCCESS,
+    DELETE_LESSONE_FAIL,
+    DELETE_LESSONE_REQUEST,
+    DELETE_LESSONE_RESET,
+    DELETE_LESSONE_SUCCESS,
     FREE_ENROLLMENT_FAIL,
     FREE_ENROLLMENT_REQUEST,
     FREE_ENROLLMENT_SUCCESS,
@@ -41,6 +49,14 @@ import {
     PAID_ENROLLMENT_FAIL,
     PAID_ENROLLMENT_REQUEST,
     PAID_ENROLLMENT_SUCCESS,
+    UPDATE_COURSE_FAIL,
+    UPDATE_COURSE_REQUEST,
+    UPDATE_COURSE_RESET,
+    UPDATE_COURSE_SUCCESS,
+    UPDATE_LESSONE_FAIL,
+    UPDATE_LESSONE_REQUEST,
+    UPDATE_LESSONE_RESET,
+    UPDATE_LESSONE_SUCCESS,
     USER_COURSE_FAIL,
     USER_COURSE_REQUEST,
     USER_COURSE_SUCCESS,
@@ -187,6 +203,69 @@ export const courseDetailsReducer = (state = { course: {} }, action) => {
                 ...state,
                 loading: false,
                 error: action.payload,
+            };
+
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null,
+            };
+
+        default:
+            return state;
+    }
+};
+
+// course & lessone update & delete reducers
+
+export const courseActionReducer = (state = {}, action) => {
+    switch (action.type) {
+        case DELETE_COURSE_REQUEST:
+        case UPDATE_COURSE_REQUEST:
+        case DELETE_LESSONE_REQUEST:
+        case UPDATE_LESSONE_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+
+        case DELETE_COURSE_SUCCESS:
+        case DELETE_LESSONE_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                isDeleted: action.payload,
+            };
+
+        case UPDATE_COURSE_SUCCESS:
+        case UPDATE_LESSONE_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                isUpdated: action.payload,
+            };
+
+        case DELETE_COURSE_FAIL:
+        case UPDATE_COURSE_FAIL:
+        case DELETE_LESSONE_FAIL:
+        case UPDATE_LESSONE_FAIL:
+            return {
+                ...state,
+                error: action.payload,
+            };
+
+        case DELETE_COURSE_RESET:
+        case DELETE_LESSONE_RESET:
+            return {
+                ...state,
+                isDeleted: false,
+            };
+
+        case UPDATE_COURSE_RESET:
+        case UPDATE_LESSONE_RESET:
+            return {
+                ...state,
+                isUpdated: false,
             };
 
         case CLEAR_ERRORS:

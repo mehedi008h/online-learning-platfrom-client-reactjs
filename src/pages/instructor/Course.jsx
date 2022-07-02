@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { getInstructorCourses } from "../../actions/instructorActions";
 import InstructorCourseCard from "../../components/cards/InstructorCourseCard";
 import Loader from "../../components/layout/loader/Loader";
@@ -9,7 +10,7 @@ const Course = () => {
     const { loading, error, courses } = useSelector(
         (state) => state.instructorCourse
     );
-    console.log("Instrocur", courses);
+    // console.log("Instrocur", courses);
 
     useEffect(() => {
         dispatch(getInstructorCourses());
@@ -25,9 +26,12 @@ const Course = () => {
                     <h3 className="text-lg font-semibold tracking-wide">
                         Total Course : <b>{courses?.length}</b>
                     </h3>
-                    <button className="bg-green-600 bg-opacity-20 text-green-700 font-semibold text-base hover:bg-opacity-25  py-1 px-4 rounded-md">
+                    <Link
+                        to="/instructor/course/new"
+                        className="bg-green-600 bg-opacity-20 text-green-700 font-semibold text-base hover:bg-opacity-25  py-1 px-4 rounded-md"
+                    >
                         Create Course
-                    </button>
+                    </Link>
                 </div>
                 <hr className="my-4 border-green-600" />
                 {loading ? (

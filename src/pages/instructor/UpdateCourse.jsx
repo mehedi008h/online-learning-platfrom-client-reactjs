@@ -3,17 +3,30 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Resizer from "react-image-file-resizer";
-import { clearErrors, getCourseDetails } from "../../actions/courseActions";
+import { toast } from "react-toastify";
+import {
+    clearErrors,
+    deleteLessone,
+    getCourseDetails,
+    updateCourse,
+    updateLessone,
+} from "../../actions/courseActions";
 import InstructorCourseLessone from "../../components/cards/InstructorCourseLessone";
 import CourseForm from "../../components/forms/CourseForm";
 import Loader from "../../components/layout/loader/Loader";
 import EditLessoneModal from "../../components/modal/EditLessoneModal";
 import PreviewModal from "../../components/modal/PreviewModal";
+import {
+    DELETE_LESSONE_RESET,
+    UPDATE_COURSE_RESET,
+} from "../../constants/courseConstants";
 
 const UpdateCourse = () => {
     const { loading, error, course } = useSelector(
         (state) => state.courseDetails
     );
+
+    const { isUpdated, isDeleted } = useSelector((state) => state.courseAction);
 
     // state
     // video preview
@@ -26,7 +39,7 @@ const UpdateCourse = () => {
 
     const [values, setValues] = useState(course);
 
-    console.log("Values : ", values);
+    console.log("Values : ", lessone);
 
     const [image, setImage] = useState(course?.image);
     const [imagePreview, setImagePreview] = useState(course?.image?.Location);
@@ -83,75 +96,55 @@ const UpdateCourse = () => {
         }
     };
 
+    // update
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        try {
-            const config = {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            };
-            // console.log(values);
-            const { data } = await axios.put(`/api/course/${slug}`, {
-                ...values,
-                image,
-                config,
-            });
-            console.log("Update", data);
-            // router.push("/instructor");
-        } catch (err) {}
+        const courseData = {
+            ...values,
+            image: image,
+        };
+
+        dispatch(updateCourse(slug, courseData));
+    };
+
+    const handleVideo = async (e) => {
+        const file = e.target.files[0];
+
+        setUploadButtonText(file.name);
     };
 
     const handleUpdateLesson = async (e) => {
         e.preventDefault();
 
-        const { data } = await axios.put(
-            `/api/course/lesson/${slug}/${lessone._id}`,
-            lessone
-        );
-        setUploadButtonText("Upload video");
-
+        dispatch(updateLessone(slug, lessone?._id, lessone));
         setOpenLessone(false);
-        // update lessons
-        if (data.ok) {
-            let arr = values.lessons;
-            const index = arr.findIndex((el) => el._id === lessone._id);
-            arr[index] = lessone;
-            setValues({ ...values, lessons: arr });
-        }
     };
 
-    const handleDeleteLesson = async (index) => {
-        let answer = window.confirm("Are you sure?");
-        if (!answer) return;
-        let allLessons = values.lessons;
-        const removed = allLessons.splice(index, 1);
-
-        // remove previous video
-        if (removed && removed.length && removed[0].video) {
-            let res = await axios.post(
-                `/api/course/video-remove/${values.instructor._id}`,
-                lessone.video
-            );
-        }
-
-        setValues({ ...values, lessons: allLessons });
-        // console.log("removed", removed, "slug", slug);`
-        const { data } = await axios.put(
-            `/api/course/${slug}/${removed[0]._id}`
-        );
-        if (data.ok) alert("Deleted");
+    const handleDeleteLesson = async (lessoneId) => {
+        dispatch(deleteLessone(slug, lessoneId));
     };
 
     useEffect(() => {
         dispatch(getCourseDetails(slug));
 
+        if (isUpdated) {
+            toast.success("Course Update Successfully.");
+            navigate(`/instructor/course/${slug}`);
+            dispatch({ type: UPDATE_COURSE_RESET });
+        }
+
+        if (isDeleted) {
+            toast.success("Lessone Delete Successfully.");
+            navigate(`/instructor/course/${slug}`);
+            dispatch({ type: DELETE_LESSONE_RESET });
+        }
+
         if (error) {
-            console.log(error);
+            toast.error(error);
             dispatch(clearErrors());
         }
-    }, [dispatch, slug, error]);
+    }, [dispatch, slug, error, isUpdated, isDeleted, navigate]);
     return (
         <div className="relative">
             <div
@@ -210,6 +203,8 @@ const UpdateCourse = () => {
                                 lessone={lessone}
                                 setlessone={setlessone}
                                 handleUpdateLesson={handleUpdateLesson}
+                                handleVideo={handleVideo}
+                                uploadButtonText={uploadButtonText}
                             />
                         </div>
                     )}

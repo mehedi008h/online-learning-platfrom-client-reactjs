@@ -49,7 +49,7 @@ const InstructorCourseLessone = ({
                                     </button>
                                     <button
                                         onClick={() =>
-                                            handleDeleteLesson(index, lessone)
+                                            handleDeleteLesson(lessone?._id)
                                         }
                                         className=" bg-pink-600 text-white rounded-sm px-4"
                                     >

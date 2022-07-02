@@ -24,7 +24,7 @@ const CourseDetailsHeader = ({
                     {course?.name}
                 </h1>
                 <p className="text-gray-200 text-xl my-2 md:w-3/5 sm:w-full mx-auto leading-relaxed tracking-wider">
-                    {course?.description.substring(0, 300)}
+                    {course?.description?.substring(0, 300)}
                 </p>
                 <div className="my-4 flex md:flex-row flex-col gap-4">
                     <button
