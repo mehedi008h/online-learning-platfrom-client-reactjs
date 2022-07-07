@@ -36,10 +36,10 @@ const UpdateCourse = () => {
     // edit lessone
     const [openLessone, setOpenLessone] = useState(false);
     const [lessone, setlessone] = useState({});
+    const [progress, setProgress] = useState(0);
+    const [uploading, setUploading] = useState(false);
 
     const [values, setValues] = useState(course);
-
-    console.log("Values : ", lessone);
 
     const [image, setImage] = useState(course?.image);
     const [imagePreview, setImagePreview] = useState(course?.image?.Location);
@@ -109,9 +109,40 @@ const UpdateCourse = () => {
     };
 
     const handleVideo = async (e) => {
-        const file = e.target.files[0];
+        // remove previous video
+        if (lessone?.video && lessone?.video.Location) {
+            const res = await axios.post(
+                `/api/course/video-remove/${course?.instructor?._id}`,
+                lessone?.video
+            );
+        }
+        // upload
+        try {
+            const file = e.target.files[0];
+            setUploadButtonText(file.name);
+            setUploading(true);
 
-        setUploadButtonText(file.name);
+            const videoData = new FormData();
+            videoData.append("video", file);
+            // save progress bar and send video as form data to backend
+            const { data } = await axios.post(
+                `/api/course/video-upload/${course?.instructor?._id}`,
+                videoData,
+                {
+                    onUploadProgress: (e) => {
+                        setProgress(Math.round((100 * e.loaded) / e.total));
+                    },
+                }
+            );
+            // once response is received
+
+            setlessone({ ...lessone, video: data });
+            setUploading(false);
+        } catch (err) {
+            setUploading(false);
+            toast.error("Video upload failed");
+        }
+        // once response is received
     };
 
     const handleUpdateLesson = async (e) => {
@@ -205,6 +236,8 @@ const UpdateCourse = () => {
                                 handleUpdateLesson={handleUpdateLesson}
                                 handleVideo={handleVideo}
                                 uploadButtonText={uploadButtonText}
+                                progress={progress}
+                                uploading={uploading}
                             />
                         </div>
                     )}

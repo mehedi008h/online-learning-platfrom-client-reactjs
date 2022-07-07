@@ -25,6 +25,9 @@ import {
     DELETE_LESSONE_FAIL,
     DELETE_LESSONE_REQUEST,
     DELETE_LESSONE_SUCCESS,
+    DELETE_VIDEO_FAIL,
+    DELETE_VIDEO_REQUEST,
+    DELETE_VIDEO_SUCCESS,
     FREE_ENROLLMENT_FAIL,
     FREE_ENROLLMENT_REQUEST,
     FREE_ENROLLMENT_SUCCESS,
@@ -49,6 +52,9 @@ import {
     UPDATE_LESSONE_FAIL,
     UPDATE_LESSONE_REQUEST,
     UPDATE_LESSONE_SUCCESS,
+    UPLOAD_VIDEO_FAIL,
+    UPLOAD_VIDEO_REQUEST,
+    UPLOAD_VIDEO_SUCCESS,
     USER_COURSE_FAIL,
     USER_COURSE_REQUEST,
     USER_COURSE_SUCCESS,
@@ -255,6 +261,68 @@ export const deleteCourse = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: DELETE_COURSE_FAIL,
+            payload: error.response.data.message,
+        });
+    }
+};
+
+// Upload video
+export const uploadVideo = (instructorId, video) => async (dispatch) => {
+    try {
+        dispatch({ type: UPLOAD_VIDEO_REQUEST });
+
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
+
+        const { data } = await axios.post(
+            `/api/course/video-upload/${instructorId}`,
+            video,
+            config
+        );
+
+        console.log("Video Data :", data);
+
+        dispatch({
+            type: UPLOAD_VIDEO_SUCCESS,
+            payload: data.success,
+        });
+    } catch (error) {
+        dispatch({
+            type: UPLOAD_VIDEO_FAIL,
+            payload: error.response.data.message,
+        });
+    }
+};
+
+// Upload video
+export const deleteVideo = (instructorId, video) => async (dispatch) => {
+    try {
+        dispatch({ type: DELETE_VIDEO_REQUEST });
+
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
+
+        const { data } = await axios.put(
+            `/api/course/video-remove/${instructorId}`,
+            video,
+            config
+        );
+
+        console.log("Video Data :", data);
+
+        dispatch({
+            type: DELETE_VIDEO_SUCCESS,
+            payload: data.success,
+        });
+    } catch (error) {
+        dispatch({
+            type: DELETE_VIDEO_FAIL,
             payload: error.response.data.message,
         });
     }

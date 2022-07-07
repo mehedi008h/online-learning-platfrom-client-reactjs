@@ -9,6 +9,7 @@ import {
     coursePublishReducer,
     courseReducer,
     enrollmentReducer,
+    fileActionReducer,
     lessoneCompleteReducer,
     newCourseReducer,
 } from "./reducers/courseReducers";
@@ -22,6 +23,7 @@ const reducer = combineReducers({
     course: courseReducer,
     newCourse: newCourseReducer,
     addLessone: addLessoneReducer,
+    fileAction: fileActionReducer,
     courseAction: courseActionReducer,
     coursePublish: coursePublishReducer,
     instructorCourse: instructorCourseReducer,

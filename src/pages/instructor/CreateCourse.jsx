@@ -88,8 +88,6 @@ const CreateCourse = () => {
         }
     };
 
-    console.log("Valusess", values, image);
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 

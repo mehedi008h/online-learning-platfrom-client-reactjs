@@ -1,5 +1,7 @@
 import React from "react";
 import { IoIosClose } from "react-icons/io";
+import ReactPlayer from "react-player";
+import ButtonLoader from "../layout/buttonLoader/ButtonLoader";
 
 const EditLessoneModal = ({
     lessone,
@@ -7,7 +9,7 @@ const EditLessoneModal = ({
     setlessone,
     handleUpdateLesson,
     handleVideo,
-    uploadButtonText,
+    uploading,
 }) => {
     return (
         <div
@@ -21,8 +23,8 @@ const EditLessoneModal = ({
                 <IoIosClose size={20} />
             </button>
             <div className="p-4">
-                <h1>
-                    Update lessone <b>{lessone?.title}</b>
+                <h1 className="font-semibold text-center text-base">
+                    Update lessone
                 </h1>
                 <div className="p-4">
                     <form
@@ -74,42 +76,64 @@ const EditLessoneModal = ({
                         </div>
                         {/* lessone video  */}
 
-                        <div className="flex flex-col w-full gap-4 p-4">
-                            <div>
-                                <label className="bg-blue-500 text-white text-center rounded-full py-2 w-full px-4">
-                                    {uploadButtonText
-                                        ? uploadButtonText
-                                        : "Upload Video"}
-                                    <input
-                                        type="file"
-                                        accept="video/*"
-                                        onChange={handleVideo}
-                                        hidden
+                        {lessone?.video && (
+                            <>
+                                <div className="relative">
+                                    <ReactPlayer
+                                        url={lessone?.video?.Location}
+                                        controls={true}
+                                        width="100%"
+                                        height="200px"
                                     />
-                                </label>
-                            </div>
-                            <div className="flex justify-between items-center">
-                                <span className="pt-3 badge">Free Preview</span>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                    <span className="pt-3 ">Free Preview</span>
+                                    <input
+                                        type="checkbox"
+                                        checked={lessone?.free_preview}
+                                        onChange={(e) =>
+                                            setlessone({
+                                                ...lessone,
+                                                free_preview:
+                                                    !lessone?.free_preview,
+                                            })
+                                        }
+                                        className="float-right mt-2"
+                                        name="free_preview"
+                                    />
+                                </div>
+                            </>
+                        )}
+                        <div className="mt-2 w-full flex">
+                            <label className="bg-blue-500 text-white text-center rounded-full py-2 w-full px-4">
+                                {uploading ? (
+                                    <>
+                                        <ButtonLoader />
+                                    </>
+                                ) : (
+                                    <>
+                                        {lessone?.video
+                                            ? "Try another video"
+                                            : "Upload video"}
+                                    </>
+                                )}
                                 <input
-                                    type="checkbox"
-                                    checked={lessone?.free_preview}
-                                    onChange={(e) =>
-                                        setlessone({
-                                            ...lessone,
-                                            free_preview:
-                                                !lessone?.free_preview,
-                                        })
-                                    }
-                                    className="float-right mt-2"
-                                    name="free_preview"
+                                    onChange={handleVideo}
+                                    className="w-full"
+                                    type="file"
+                                    accept="video/*"
+                                    hidden
                                 />
-                            </div>
+                            </label>
                         </div>
 
-                        <div className="mt-4 mx-auto">
+                        <div className="mt-2 mx-auto">
                             <button
                                 onClick={handleUpdateLesson}
-                                className="bg-green-500 py-2 px-4 rounded-full text-white"
+                                disabled={uploading}
+                                className={` py-2 px-4 rounded-full text-white ${
+                                    uploading ? "bg-green-700" : "bg-green-500"
+                                }`}
                             >
                                 Update Lessone
                             </button>

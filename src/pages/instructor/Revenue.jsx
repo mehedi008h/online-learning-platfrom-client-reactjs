@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { stripeCurrencyFormatter } from "../../utils/helper";
+import { AiFillMoneyCollect, AiFillSetting } from "react-icons/ai";
+import ButtonLoader from "../../components/layout/buttonLoader/ButtonLoader";
 
 const Revenue = () => {
     const [balance, setBalance] = useState({ pending: [] });
@@ -34,7 +36,7 @@ const Revenue = () => {
                         <div className="p-5">
                             <h2 className="font-bold text-lg">
                                 Revenue report{" "}
-                                {/* <DollarOutlined className="float-right" />{" "} */}
+                                <AiFillMoneyCollect className="float-right" />
                             </h2>
                             <p className="font-base text-gray-500">
                                 You get paid directly from stripe to your bank
@@ -57,17 +59,14 @@ const Revenue = () => {
                             <hr className="my-2" />
                             <h2 className="font-bold text-lg">
                                 Payouts{" "}
-                                {/* {!loading ? (
-                                    <SettingOutlined
+                                {!loading ? (
+                                    <AiFillSetting
                                         className="float-right pointer"
                                         onClick={handlePayoutSettings}
                                     />
                                 ) : (
-                                    <SyncOutlined
-                                        spin
-                                        className="float-right pointer"
-                                    />
-                                )} */}
+                                    <ButtonLoader />
+                                )}
                             </h2>
                             <p className="font-base text-gray-500">
                                 Update your stripe account details or view

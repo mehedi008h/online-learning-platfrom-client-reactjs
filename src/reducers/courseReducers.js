@@ -28,6 +28,10 @@ import {
     DELETE_LESSONE_REQUEST,
     DELETE_LESSONE_RESET,
     DELETE_LESSONE_SUCCESS,
+    DELETE_VIDEO_FAIL,
+    DELETE_VIDEO_REQUEST,
+    DELETE_VIDEO_RESET,
+    DELETE_VIDEO_SUCCESS,
     FREE_ENROLLMENT_FAIL,
     FREE_ENROLLMENT_REQUEST,
     FREE_ENROLLMENT_SUCCESS,
@@ -57,6 +61,10 @@ import {
     UPDATE_LESSONE_REQUEST,
     UPDATE_LESSONE_RESET,
     UPDATE_LESSONE_SUCCESS,
+    UPLOAD_VIDEO_FAIL,
+    UPLOAD_VIDEO_REQUEST,
+    UPLOAD_VIDEO_RESET,
+    UPLOAD_VIDEO_SUCCESS,
     USER_COURSE_FAIL,
     USER_COURSE_REQUEST,
     USER_COURSE_SUCCESS,
@@ -266,6 +274,62 @@ export const courseActionReducer = (state = {}, action) => {
             return {
                 ...state,
                 isUpdated: false,
+            };
+
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null,
+            };
+
+        default:
+            return state;
+    }
+};
+
+// course & lessone update & delete reducers
+
+export const fileActionReducer = (state = { file: {} }, action) => {
+    switch (action.type) {
+        case UPLOAD_VIDEO_REQUEST:
+        case DELETE_VIDEO_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+
+        case DELETE_VIDEO_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                isDeleted: action.payload,
+            };
+
+        case UPLOAD_VIDEO_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                isUpload: action.payload.update,
+                file: action.payload.file,
+            };
+
+        case DELETE_VIDEO_FAIL:
+        case UPLOAD_VIDEO_FAIL:
+            return {
+                ...state,
+                error: action.payload,
+            };
+
+        case DELETE_VIDEO_RESET:
+            return {
+                ...state,
+                isDeleted: false,
+            };
+
+        case UPLOAD_VIDEO_RESET:
+            return {
+                ...state,
+                isUpload: false,
             };
 
         case CLEAR_ERRORS:

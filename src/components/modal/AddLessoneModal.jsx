@@ -78,7 +78,13 @@ const AddLessoneModal = ({
                         {/* lessone video  */}
                         <div className="flex justify-center mt-2">
                             <label className="bg-yellow-500 text-white py-2 w-full rounded-full text-center">
-                                {uploadButtonText}
+                                {uploading ? (
+                                    <>
+                                        <ButtonLoader />{" "}
+                                    </>
+                                ) : (
+                                    `${uploadButtonText}`
+                                )}
                                 <input
                                     onChange={handleVideo}
                                     type="file"
@@ -86,17 +92,6 @@ const AddLessoneModal = ({
                                     hidden
                                 />
                             </label>
-
-                            {/* {!uploading && values.video.Location && (
-                        <Tooltip title="Remove">
-                            <span
-                                onClick={handleVideoRemove}
-                                className="pt-1 pl-3"
-                            >
-                                <CloseCircleFilled className="text-danger d-flex justify-content-center pt-4 pointer" />
-                            </span>
-                        </Tooltip>
-                    )} */}
                         </div>
 
                         <div
