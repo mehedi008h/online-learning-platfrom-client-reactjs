@@ -12,6 +12,9 @@ import {
     REGISTER_USER_FAIL,
     REGISTER_USER_REQUEST,
     REGISTER_USER_SUCCESS,
+    UPDATE_PROFILE_FAIL,
+    UPDATE_PROFILE_REQUEST,
+    UPDATE_PROFILE_SUCCESS,
 } from "../constants/authConstants";
 // Register user
 export const register = (userData) => async (dispatch) => {
@@ -97,6 +100,37 @@ export const logout = () => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: LOGOUT_FAIL,
+            payload: error.response.data.message,
+        });
+    }
+};
+
+// Update profile
+export const updateProfile = (userData) => async (dispatch) => {
+    try {
+        dispatch({ type: UPDATE_PROFILE_REQUEST });
+
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
+
+        const { data } = await axios.put(
+            "/api/current-user/update",
+            userData,
+            config
+        );
+
+        console.log("Update Data :", data);
+
+        dispatch({
+            type: UPDATE_PROFILE_SUCCESS,
+            payload: data.success,
+        });
+    } catch (error) {
+        dispatch({
+            type: UPDATE_PROFILE_FAIL,
             payload: error.response.data.message,
         });
     }

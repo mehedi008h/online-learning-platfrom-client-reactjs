@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { authReducer } from "./reducers/authReducers";
+import { authReducer, userReducer } from "./reducers/authReducers";
 import {
     addLessoneReducer,
     courseActionReducer,
@@ -20,6 +20,7 @@ import {
 
 const reducer = combineReducers({
     auth: authReducer,
+    user: userReducer,
     course: courseReducer,
     newCourse: newCourseReducer,
     addLessone: addLessoneReducer,
