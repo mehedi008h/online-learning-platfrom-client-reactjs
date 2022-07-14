@@ -34,6 +34,7 @@ import {
     DELETE_VIDEO_SUCCESS,
     FREE_ENROLLMENT_FAIL,
     FREE_ENROLLMENT_REQUEST,
+    FREE_ENROLLMENT_RESET,
     FREE_ENROLLMENT_SUCCESS,
     LESSONE_COMPLETE_FAIL,
     LESSONE_COMPLETE_REQUEST,
@@ -52,6 +53,7 @@ import {
     NEW_COURSE_SUCCESS,
     PAID_ENROLLMENT_FAIL,
     PAID_ENROLLMENT_REQUEST,
+    PAID_ENROLLMENT_RESET,
     PAID_ENROLLMENT_SUCCESS,
     UPDATE_COURSE_FAIL,
     UPDATE_COURSE_REQUEST,
@@ -80,6 +82,13 @@ export const courseReducer = (state = { courses: [] }, action) => {
             };
 
         case ALL_COURSE_SUCCESS:
+            return {
+                loading: false,
+                courses: action.payload.courses,
+                courseCount: action.payload.courseCount,
+                resPerPage: action.payload.resPerPage,
+                filteredCourseCount: action.payload.filteredCourseCount,
+            };
         case USER_COURSE_SUCCESS:
             return {
                 loading: false,
@@ -409,6 +418,14 @@ export const enrollmentReducer = (state = {}, action) => {
                 loading: false,
                 course: action.payload.course,
                 success: action.payload.success,
+                session: action.payload.session,
+            };
+
+        case FREE_ENROLLMENT_RESET:
+        case PAID_ENROLLMENT_RESET:
+            return {
+                ...state,
+                success: false,
             };
 
         case FREE_ENROLLMENT_FAIL:

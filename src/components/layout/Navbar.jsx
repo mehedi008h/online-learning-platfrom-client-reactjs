@@ -139,6 +139,16 @@ const Navbar = () => {
                                                     <AiOutlineLogin size={19} />
                                                     Dashboard
                                                 </Link>
+                                                <Link
+                                                    onClick={() =>
+                                                        setOpen(false)
+                                                    }
+                                                    to="/user/profile"
+                                                    className="flex items-center gap-1 px-6 py-2 hover:bg-gray-500 bg-opacity-50   text-white"
+                                                >
+                                                    <AiOutlineLogin size={19} />
+                                                    My profile
+                                                </Link>
                                                 <button
                                                     onClick={handleLogout}
                                                     className="flex items-center gap-1 px-6 py-2 hover:bg-red-500 bg-opacity-50   text-white"

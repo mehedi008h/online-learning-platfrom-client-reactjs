@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { getUserCourses } from "../../actions/courseActions";
 import UserCourseCard from "../../components/cards/UserCourseCard";
 import Loader from "../../components/layout/loader/Loader";
@@ -7,18 +8,17 @@ import Loader from "../../components/layout/loader/Loader";
 const UserHome = () => {
     const dispatch = useDispatch();
     const { loading, error, courses } = useSelector((state) => state.course);
-    console.log("Instrocur", courses);
 
     useEffect(() => {
         dispatch(getUserCourses());
 
         if (error) {
-            return console.log(error);
+            return toast.error(error);
         }
     }, [dispatch, error]);
     return (
-        <div className="mt-20">
-            <div className="md:w-3/4 w-4/5 mx-auto">
+        <div className="flex bg-gray-100 min-h-screen">
+            <div className="md:w-3/4 w-4/5 mx-auto mt-20 mb-8">
                 <div className="flex justify-between items-center">
                     <h3 className="text-lg font-semibold tracking-wide">
                         Total Course : <b>{courses?.length}</b>
@@ -34,7 +34,7 @@ const UserHome = () => {
                     </>
                 ) : (
                     <>
-                        <div className="grid md:grid-cols-12 grid-cols-none gap-4">
+                        <div className="grid md:grid-cols-12 grid-cols-none gap-8">
                             {courses &&
                                 courses.map((course) => (
                                     <div

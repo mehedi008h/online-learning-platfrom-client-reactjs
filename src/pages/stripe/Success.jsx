@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { paidEnrollment } from "../../actions/courseActions";
+import Loader from "../../components/layout/loader/Loader";
 import { CLEAR_ERRORS } from "../../constants/courseConstants";
 
 const Success = () => {
     // enroll state
-    const { course, success, error } = useSelector((state) => state.enrollment);
-
-    console.log("PAid course :", course);
+    const { loading, success, error } = useSelector(
+        (state) => state.enrollment
+    );
 
     const dispatch = useDispatch();
     let { id } = useParams();
@@ -18,7 +19,7 @@ const Success = () => {
         dispatch(paidEnrollment(id));
 
         if (error) {
-            console.log(error);
+            toast.error(error);
             dispatch(CLEAR_ERRORS());
         }
 
@@ -27,9 +28,31 @@ const Success = () => {
         }
     }, [dispatch, id, success, error]);
     return (
-        <div className="mt-20">
-            <h1>Success</h1>
-            <p>{id}</p>
+        <div className="flex justify-center items-center mt-20">
+            {loading ? (
+                <>
+                    <Loader />
+                </>
+            ) : (
+                <>
+                    <div className="mt-10">
+                        <h1 className="text-4xl font-semibold text-center">
+                            Thanks for enrolling in this course!
+                        </h1>
+                        <p className="my-6 text-center">Your order ID : {id}</p>
+                        <p className="my-6 text-center">
+                            You will receive an email confirmation at{" "}
+                            <b>Email</b>
+                        </p>
+                        <hr />
+                        <div className="text-center mt-5">
+                            <button className="bg-purple-500 px-6 py-2 rounded-full text-white">
+                                Go to course
+                            </button>
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 };

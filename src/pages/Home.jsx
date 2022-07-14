@@ -1,31 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import Pagination from "react-js-pagination";
 import { getCourses } from "../actions/courseActions";
 import CourseCard from "../components/cards/CourseCard";
 import Loader from "../components/layout/loader/Loader";
 
 const Home = () => {
+    const [currentPage, setCurrentPage] = useState(1);
     const dispatch = useDispatch();
-    const { loading, error, courses } = useSelector((state) => state.course);
-    console.log("hfhfh", courses);
+    const {
+        loading,
+        error,
+        courses,
+        courseCount,
+        resPerPage,
+        filteredCourseCount,
+    } = useSelector((state) => state.course);
+
+    let { keyword } = useParams();
     useEffect(() => {
-        dispatch(getCourses());
+        dispatch(getCourses(keyword, currentPage));
 
         if (error) {
-            return console.log(error);
+            return toast.error(error);
         }
-    }, [dispatch, error]);
+    }, [dispatch, error, keyword, currentPage]);
+
+    function setCurrentPageNo(pageNumber) {
+        setCurrentPage(pageNumber);
+    }
+
+    let count = courseCount;
+    if (keyword) {
+        count = filteredCourseCount;
+    }
     return (
-        <div className="mt-20">
+        <div className=" bg-gray-200 flex min-h-screen">
             {loading ? (
                 <>
                     <Loader />
                 </>
             ) : (
                 <>
-                    <div className="md:w-4/5 lg:w-4/5 w-full px-4 md:px-0 lg:px-0 mx-auto ">
-                        <div className="grid md:grid-cols-12 lg:grid-cols-12 grid-cols-none gap-4">
+                    <div className="md:w-4/5 lg:w-4/5 w-full px-4 md:px-0 lg:px-0 mx-auto mt-20">
+                        <div className="grid md:grid-cols-12 lg:grid-cols-12 grid-cols-none gap-8">
                             {courses &&
                                 courses.map((course) => (
                                     <div
@@ -35,6 +56,24 @@ const Home = () => {
                                         <CourseCard course={course} />
                                     </div>
                                 ))}
+                        </div>
+                        <div className="my-8">
+                            {resPerPage <= count && (
+                                <div className="pagination">
+                                    <Pagination
+                                        activePage={currentPage}
+                                        itemsCountPerPage={resPerPage}
+                                        totalItemsCount={courseCount}
+                                        onChange={setCurrentPageNo}
+                                        nextPageText={">"}
+                                        prevPageText={"<"}
+                                        firstPageText={"<<"}
+                                        lastPageText={">>"}
+                                        itemClass="page-item"
+                                        linkClass="page-link"
+                                    />
+                                </div>
+                            )}
                         </div>
                     </div>
                 </>

@@ -20,8 +20,8 @@ const Course = () => {
         }
     }, [dispatch, error]);
     return (
-        <div className="mt-20 mb-8">
-            <div className="md:w-3/4 w-4/5 mx-auto">
+        <div className="flex bg-gray-100">
+            <div className="md:w-3/4 w-4/5 mx-auto mt-20 mb-8">
                 <div className="flex justify-between items-center">
                     <h3 className="text-lg font-semibold tracking-wide">
                         Total Course : <b>{courses?.length}</b>
@@ -40,7 +40,7 @@ const Course = () => {
                     </>
                 ) : (
                     <>
-                        <div className="grid md:grid-cols-12 grid-cols-none gap-4">
+                        <div className="grid md:grid-cols-12 grid-cols-none gap-8">
                             {courses &&
                                 courses.map((course) => (
                                     <div

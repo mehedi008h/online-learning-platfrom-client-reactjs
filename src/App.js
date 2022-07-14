@@ -22,6 +22,7 @@ import Success from "./pages/stripe/Success";
 import Revenue from "./pages/instructor/Revenue";
 import BecomeInstructor from "./pages/user/BecomeInstructor";
 import Callback from "./pages/stripe/Callback";
+import Profile from "./pages/user/Profile";
 
 function App() {
     useEffect(() => {
@@ -44,6 +45,7 @@ function App() {
                 />
                 <Routes>
                     <Route path="/" element={<Home />} />
+                    <Route path="/search/:keyword" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/course/:slug" element={<CourseDetails />} />
@@ -93,6 +95,14 @@ function App() {
 
                     {/* user  */}
 
+                    <Route
+                        path="/user/profile"
+                        element={
+                            <ProtectedRoute>
+                                <Profile />
+                            </ProtectedRoute>
+                        }
+                    />
                     <Route
                         path="/user"
                         element={

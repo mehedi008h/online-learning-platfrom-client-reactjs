@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 const InstructorCourseCard = ({ course }) => {
     return (
         <Link to={`/instructor/course/${course?.slug}`}>
-            <div className="p-2 bg-white shadow rounded-md">
+            <div className="p-2 bg-white  rounded-md">
                 <div className="relative">
                     <img
                         src={course?.image?.Location}
-                        className="w-full h-44 object-cover"
+                        className="w-full h-44 object-cover rounded-md"
                         alt={course?.name}
                     />
                     <p

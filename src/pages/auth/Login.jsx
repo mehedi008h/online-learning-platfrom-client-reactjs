@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { clearErrors, login } from "../../actions/authActions";
+import { toast } from "react-toastify";
 import login_image from "../../assets/Lesson-amico.svg";
 
 const Login = () => {
@@ -20,7 +21,7 @@ const Login = () => {
         }
 
         if (error) {
-            error(error);
+            toast.error(error);
             dispatch(clearErrors());
         }
     }, [dispatch, isAuthenticated, error, navigate]);

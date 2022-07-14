@@ -61,25 +61,29 @@ import {
 } from "../constants/courseConstants";
 
 // get all course
-export const getCourses = () => async (dispatch) => {
-    try {
-        dispatch({ type: ALL_COURSE_REQUEST });
+export const getCourses =
+    (keyword = "", currentPage = 1) =>
+    async (dispatch) => {
+        try {
+            dispatch({ type: ALL_COURSE_REQUEST });
 
-        const { data } = await axios.get("/api/courses");
+            const { data } = await axios.get(
+                `/api/courses?keyword=${keyword}&page=${currentPage}`
+            );
 
-        console.log("Course :", data);
+            console.log("Course :", data);
 
-        dispatch({
-            type: ALL_COURSE_SUCCESS,
-            payload: data,
-        });
-    } catch (error) {
-        dispatch({
-            type: ALL_COURSE_FAIL,
-            payload: error.response.data.message,
-        });
-    }
-};
+            dispatch({
+                type: ALL_COURSE_SUCCESS,
+                payload: data,
+            });
+        } catch (error) {
+            dispatch({
+                type: ALL_COURSE_FAIL,
+                payload: error.response.data.message,
+            });
+        }
+    };
 
 // create new produtc by admin
 export const newCourse = (courseData) => async (dispatch) => {
