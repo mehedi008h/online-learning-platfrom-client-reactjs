@@ -23,12 +23,15 @@ const CourseDetails = () => {
     const [preview, setPreview] = useState("");
 
     // course details state
-    const { loading, error, course, status } = useSelector(
+    const { loading, error, course } = useSelector(
         (state) => state.courseDetails
     );
 
+    console.log("Course Details", course);
     // user state
     const { user } = useSelector((state) => state.auth);
+    // user state
+    const { status } = useSelector((state) => state.checkEnroll);
 
     // enroll state
     const { success } = useSelector((state) => state.enrollment);
@@ -97,7 +100,9 @@ const CourseDetails = () => {
             console.log(error);
             dispatch(clearErrors());
         }
-    }, [dispatch, slug, error, user, success]);
+    }, [dispatch, slug, user, success, error]);
+
+    useEffect(() => {}, [dispatch, user]);
 
     return (
         <div className="mt-16">

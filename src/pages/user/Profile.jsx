@@ -5,13 +5,14 @@ import Resizer from "react-image-file-resizer";
 import { getInstructorCourses } from "../../actions/instructorActions";
 import ButtonLoader from "../../components/layout/buttonLoader/ButtonLoader";
 import Loader from "../../components/layout/loader/Loader";
-import axios from "axios";
 import {
     clearErrors,
     loadUser,
     updateProfile,
 } from "../../actions/authActions";
 import { UPDATE_PROFILE_RESET } from "../../constants/authConstants";
+import { axiosInstance } from "../../config";
+import axios from "axios";
 
 const Profile = () => {
     const [edit, setEdit] = useState(false);

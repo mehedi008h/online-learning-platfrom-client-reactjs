@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { axiosInstance } from "../../config";
 
 const Callback = () => {
     const { user } = useSelector((state) => state.auth);

@@ -14,6 +14,7 @@ import {
 import CoursePlayer from "../../components/cards/CoursePlayer";
 import LessoneList from "../../components/cards/LessoneList";
 import Loader from "../../components/layout/loader/Loader";
+import { axiosInstance } from "../../config";
 import {
     MARK_COMPLETE_RESET,
     MARK_INCOMPLETE_RESET,

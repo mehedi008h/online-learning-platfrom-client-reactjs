@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
     CLEAR_ERRORS,
     LOAD_USER_FAIL,
@@ -15,7 +14,11 @@ import {
     UPDATE_PROFILE_FAIL,
     UPDATE_PROFILE_REQUEST,
     UPDATE_PROFILE_SUCCESS,
+    USER_DETAILS_FAIL,
+    USER_DETAILS_REQUEST,
+    USER_DETAILS_SUCCESS,
 } from "../constants/authConstants";
+import axios from "axios";
 // Register user
 export const register = (userData) => async (dispatch) => {
     try {
@@ -131,6 +134,28 @@ export const updateProfile = (userData) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: UPDATE_PROFILE_FAIL,
+            payload: error.response.data.message,
+        });
+    }
+};
+
+// Get user details
+export const getUserDetails = (id) => async (dispatch) => {
+    console.log("Details Id:", id);
+    try {
+        dispatch({ type: USER_DETAILS_REQUEST });
+
+        const { data } = await axios.get(`/api/user/${id}`);
+
+        console.log("Data 33", data);
+
+        dispatch({
+            type: USER_DETAILS_SUCCESS,
+            payload: data.user,
+        });
+    } catch (error) {
+        dispatch({
+            type: USER_DETAILS_FAIL,
             payload: error.response.data.message,
         });
     }

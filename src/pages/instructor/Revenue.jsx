@@ -1,8 +1,8 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { stripeCurrencyFormatter } from "../../utils/helper";
 import { AiFillMoneyCollect, AiFillSetting } from "react-icons/ai";
 import ButtonLoader from "../../components/layout/buttonLoader/ButtonLoader";
+import axios from "axios";
 
 const Revenue = () => {
     const [balance, setBalance] = useState({ pending: [] });

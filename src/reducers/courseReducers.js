@@ -193,7 +193,6 @@ export const addLessoneReducer = (state = { lessone: {} }, action) => {
 export const courseDetailsReducer = (state = { course: {} }, action) => {
     switch (action.type) {
         case COURSE_DETAILS_REQUEST:
-        case CHECK_ENROLL_REQUEST:
             return {
                 ...state,
                 loading: true,
@@ -206,15 +205,39 @@ export const courseDetailsReducer = (state = { course: {} }, action) => {
                 course: action.payload,
             };
 
+        case COURSE_DETAILS_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            };
+
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null,
+            };
+
+        default:
+            return state;
+    }
+};
+
+export const checkEnrollReducer = (state = {}, action) => {
+    switch (action.type) {
+        case CHECK_ENROLL_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+
         case CHECK_ENROLL_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                course: action.payload.course,
                 status: action.payload.status,
             };
 
-        case COURSE_DETAILS_FAIL:
         case CHECK_ENROLL_FAIL:
             return {
                 ...state,

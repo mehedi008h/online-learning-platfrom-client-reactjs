@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
     ADD_LESSONE_FAIL,
     ADD_LESSONE_REQUEST,
@@ -59,6 +58,7 @@ import {
     USER_COURSE_REQUEST,
     USER_COURSE_SUCCESS,
 } from "../constants/courseConstants";
+import axios from "axios";
 
 // get all course
 export const getCourses =

@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -20,6 +19,8 @@ import {
     DELETE_LESSONE_RESET,
     UPDATE_COURSE_RESET,
 } from "../../constants/courseConstants";
+import { axiosInstance } from "../../config";
+import axios from "axios";
 
 const UpdateCourse = () => {
     const { loading, error, course } = useSelector(
@@ -87,7 +88,9 @@ const UpdateCourse = () => {
 
     const handleImageRemove = async () => {
         try {
-            const res = await axios.post("/api/course/remove-image", { image });
+            const res = await axios.post("/api/course/remove-image", {
+                image,
+            });
             setImage({});
             setImagePreview("");
             setUploadButtonText("Upload Image");

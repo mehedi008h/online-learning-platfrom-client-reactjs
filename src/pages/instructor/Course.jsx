@@ -1,7 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getInstructorCourses } from "../../actions/instructorActions";
+import { toast } from "react-toastify";
+import { ImFilesEmpty } from "react-icons/im";
+import {
+    clearErrors,
+    getInstructorCourses,
+} from "../../actions/instructorActions";
 import InstructorCourseCard from "../../components/cards/InstructorCourseCard";
 import Loader from "../../components/layout/loader/Loader";
 
@@ -16,11 +21,12 @@ const Course = () => {
         dispatch(getInstructorCourses());
 
         if (error) {
-            return console.log(error);
+            toast.error(error);
+            dispatch(clearErrors());
         }
     }, [dispatch, error]);
     return (
-        <div className="flex bg-gray-100">
+        <div className="flex bg-gray-100 min-h-screen">
             <div className="md:w-3/4 w-4/5 mx-auto mt-20 mb-8">
                 <div className="flex justify-between items-center">
                     <h3 className="text-lg font-semibold tracking-wide">
@@ -41,6 +47,14 @@ const Course = () => {
                 ) : (
                     <>
                         <div className="grid md:grid-cols-12 grid-cols-none gap-8">
+                            {courses?.length === 0 && (
+                                <div className="w-full">
+                                    <ImFilesEmpty
+                                        className="absolute right-1/2 top-1/2"
+                                        size={60}
+                                    />
+                                </div>
+                            )}
                             {courses &&
                                 courses.map((course) => (
                                     <div

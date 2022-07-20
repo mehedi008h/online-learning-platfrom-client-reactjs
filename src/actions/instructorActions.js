@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
     INSTRUCTOR_COURSE_FAIL,
     INSTRUCTOR_COURSE_REQUEST,
@@ -10,6 +9,8 @@ import {
     ENROLLED_STUDENT_REQUEST,
     ENROLLED_STUDENT_SUCCESS,
 } from "../constants/instructorConstants";
+
+import axios from "axios";
 
 // get course for user
 export const getInstructorCourses = () => async (dispatch) => {

@@ -4,10 +4,10 @@ import CourseForm from "../../components/forms/CourseForm";
 import Resizer from "react-image-file-resizer";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import { clearErrors, newCourse } from "../../actions/courseActions";
 import { NEW_COURSE_RESET } from "../../constants/courseConstants";
 import { useEffect } from "react";
+import axios from "axios";
 
 const CreateCourse = () => {
     const { loading, error, success } = useSelector((state) => state.newCourse);
