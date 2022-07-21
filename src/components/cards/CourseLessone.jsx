@@ -1,11 +1,22 @@
 import React from "react";
 import { FcVideoCall } from "react-icons/fc";
+import { ImFilesEmpty } from "react-icons/im";
 
 const CourseLessone = ({ course, setOpen, setPreview }) => {
     return (
         <div>
             <h1 className="font-semibold text-xl">Course Curriculum</h1>
-            <div className="my-6">
+            <div className="relative my-8">
+                {course?.lessons?.length === 0 && (
+                    <div className="w-full">
+                        <div className="absolute right-1/2 top-1/2 flex flex-col justify-center items-center my-8">
+                            <ImFilesEmpty className="text-gray-600" size={60} />
+                            <p className="my-4 text-gray-600">
+                                No Lessone added yet!
+                            </p>
+                        </div>
+                    </div>
+                )}
                 {course?.lessons &&
                     course?.lessons.map((lessone) => (
                         <div

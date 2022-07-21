@@ -12,6 +12,8 @@ import Loader from "../../components/layout/loader/Loader";
 
 const Course = () => {
     const dispatch = useDispatch();
+
+    // instructor course state
     const { loading, error, courses } = useSelector(
         (state) => state.instructorCourse
     );
@@ -26,7 +28,7 @@ const Course = () => {
         }
     }, [dispatch, error]);
     return (
-        <div className="flex bg-gray-100 min-h-screen">
+        <div className="flex bg-gray-200 min-h-screen">
             <div className="md:w-3/4 w-4/5 mx-auto mt-20 mb-8">
                 <div className="flex justify-between items-center">
                     <h3 className="text-lg font-semibold tracking-wide">

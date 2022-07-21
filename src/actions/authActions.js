@@ -141,7 +141,6 @@ export const updateProfile = (userData) => async (dispatch) => {
 
 // Get user details
 export const getUserDetails = (id) => async (dispatch) => {
-    console.log("Details Id:", id);
     try {
         dispatch({ type: USER_DETAILS_REQUEST });
 

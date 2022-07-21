@@ -21,10 +21,18 @@
     font-weight: 500;
 }
 .active {
-    background: green;
+    background: #8b96c5;
 }
 
 .box-shadow {
     background: wheat;
     z-index: 1;
+}
+
+.card {
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
 }

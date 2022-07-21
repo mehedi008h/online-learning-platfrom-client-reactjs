@@ -7,9 +7,12 @@ import Pagination from "react-js-pagination";
 import { getCourses } from "../actions/courseActions";
 import CourseCard from "../components/cards/CourseCard";
 import Loader from "../components/layout/loader/Loader";
+import SearchFilter from "../components/cards/SearchFilter";
 
 const Home = () => {
     const [currentPage, setCurrentPage] = useState(1);
+    const [category, setCategory] = useState("");
+
     const dispatch = useDispatch();
     const {
         loading,
@@ -22,12 +25,12 @@ const Home = () => {
 
     let { keyword } = useParams();
     useEffect(() => {
-        dispatch(getCourses(keyword, currentPage));
+        dispatch(getCourses(keyword, currentPage, category));
 
         if (error) {
             return toast.error(error);
         }
-    }, [dispatch, error, keyword, currentPage]);
+    }, [dispatch, error, keyword, currentPage, category]);
 
     function setCurrentPageNo(pageNumber) {
         setCurrentPage(pageNumber);
@@ -46,6 +49,10 @@ const Home = () => {
             ) : (
                 <>
                     <div className="md:w-4/5 lg:w-4/5 w-full px-4 md:px-0 lg:px-0 mx-auto mt-20">
+                        <SearchFilter
+                            category={category}
+                            setCategory={setCategory}
+                        />
                         <div className="grid md:grid-cols-12 lg:grid-cols-12 grid-cols-none gap-8">
                             {courses &&
                                 courses.map((course) => (

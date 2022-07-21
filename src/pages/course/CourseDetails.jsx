@@ -27,7 +27,6 @@ const CourseDetails = () => {
         (state) => state.courseDetails
     );
 
-    console.log("Course Details", course);
     // user state
     const { user } = useSelector((state) => state.auth);
     // user state
@@ -54,7 +53,6 @@ const CourseDetails = () => {
                 `/api/paid-enrollment/${course._id}`
             );
 
-            console.log("Pay :", data);
             // load stripe for payment
             // on successful payment, user will get redirected to /stripe/success page
             let stripe = await loadStripe(
@@ -62,8 +60,7 @@ const CourseDetails = () => {
             );
             stripe.redirectToCheckout({ sessionId: data.id });
         } catch (err) {
-            toast("Enrollment failed, Try again.");
-            console.log("Stripe error", err);
+            toast.error("Enrollment failed, Try again.");
         }
     };
 
@@ -81,7 +78,7 @@ const CourseDetails = () => {
             // redirect user to course page
             // navigate(`/user/course/${data.course.slug}`);
         } catch (err) {
-            toast("Enrollment failed, Try again.");
+            toast.error("Enrollment failed, Try again.");
         }
     };
 
@@ -97,7 +94,7 @@ const CourseDetails = () => {
         }
 
         if (error) {
-            console.log(error);
+            toast.error(error);
             dispatch(clearErrors());
         }
     }, [dispatch, slug, user, success, error]);

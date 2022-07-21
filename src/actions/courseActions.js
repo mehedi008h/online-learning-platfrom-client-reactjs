@@ -62,14 +62,18 @@ import axios from "axios";
 
 // get all course
 export const getCourses =
-    (keyword = "", currentPage = 1) =>
+    (keyword = "", currentPage = 1, category) =>
     async (dispatch) => {
         try {
             dispatch({ type: ALL_COURSE_REQUEST });
 
-            const { data } = await axios.get(
-                `/api/courses?keyword=${keyword}&page=${currentPage}`
-            );
+            let link = `/api/courses?keyword=${keyword}&page=${currentPage}`;
+
+            if (category) {
+                link = `/api/courses?keyword=${keyword}&page=${currentPage}&category=${category}`;
+            }
+
+            const { data } = await axios.get(link);
 
             console.log("Course :", data);
 

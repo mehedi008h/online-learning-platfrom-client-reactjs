@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const UserCourseCard = ({ course }) => {
     return (
         <Link to={`/user/course/${course?.slug}`}>
-            <div className="p-2 bg-white rounded-md">
+            <div className="p-2 bg-white rounded-md card">
                 <div className="">
                     <img
                         src={course?.image?.Location}

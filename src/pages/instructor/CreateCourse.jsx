@@ -119,10 +119,15 @@ const CreateCourse = () => {
         <div className="relative">
             <div
                 className="h-60 flex items-center justify-start"
-                style={{ background: "#494d67" }}
+                style={{
+                    backgroundImage:
+                        "linear-gradient(to right, #4d6085 , #8b96c5)",
+                }}
             >
                 <div className="w-4/5 mx-auto">
-                    <h1 className="text-white text-lg"> Create Course</h1>
+                    <h1 className="text-white text-center text-2xl font-roboto">
+                        Create Course
+                    </h1>
                 </div>
             </div>
             <div className="md:w-2/5 w-4/5 mx-auto my-8">

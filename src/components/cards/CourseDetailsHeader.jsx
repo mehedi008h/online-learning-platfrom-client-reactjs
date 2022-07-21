@@ -10,14 +10,16 @@ const CourseDetailsHeader = ({
     handlePaidEnrollment,
     status,
 }) => {
+    // auth state
     const { user } = useSelector((state) => state.auth);
-
-    console.log("Sta hhh", status);
 
     return (
         <div
             className="w-full flex"
-            style={{ background: "#494d67", minHeight: "70vh" }}
+            style={{
+                backgroundImage: "linear-gradient(to right, #4d6085 , #8b96c5)",
+                minHeight: "70vh",
+            }}
         >
             <div className="w-4/5 mx-auto flex flex-col gap-4 items-center justify-center text-center">
                 <h1 className="text-white font-semibold md:text-5xl sm:text-3xl text-3xl leading-relaxed tracking-wider">

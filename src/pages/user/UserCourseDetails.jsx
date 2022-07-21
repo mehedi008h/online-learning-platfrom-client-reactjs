@@ -34,8 +34,6 @@ const UserCourseDetails = () => {
         inComplete,
     } = useSelector((state) => state.lessoneComplete);
 
-    console.log("Redux", completedLessone);
-
     const dispatch = useDispatch();
     let { slug } = useParams();
 
@@ -45,7 +43,7 @@ const UserCourseDetails = () => {
             courseId: course._id,
             lessonId: lessone._id,
         });
-        console.log("Mark Complete :", data);
+        // console.log("Mark Complete :", data);
         dispatch({ type: MARK_COMPLETE_RESET });
         // setCompletedLessons([...completedLessons, lessone._id]);
     };
@@ -56,7 +54,7 @@ const UserCourseDetails = () => {
             courseId: course._id,
             lessonId: lessone._id,
         });
-        console.log("Mark INComplete :", data);
+        // console.log("Mark INComplete :", data);
         dispatch({ type: MARK_INCOMPLETE_RESET });
         // try {
         //     const { data } = await axios.post("/api/mark-incomplete", {
