@@ -1,3 +1,4 @@
+import { axiosInstance } from "../config";
 import {
     ADD_LESSONE_FAIL,
     ADD_LESSONE_REQUEST,
@@ -58,7 +59,6 @@ import {
     USER_COURSE_REQUEST,
     USER_COURSE_SUCCESS,
 } from "../constants/courseConstants";
-import axios from "axios";
 
 // get all course
 export const getCourses =
@@ -73,7 +73,7 @@ export const getCourses =
                 link = `/api/courses?keyword=${keyword}&page=${currentPage}&category=${category}`;
             }
 
-            const { data } = await axios.get(link);
+            const { data } = await axiosInstance.get(link);
 
             console.log("Course :", data);
 
@@ -100,7 +100,11 @@ export const newCourse = (courseData) => async (dispatch) => {
             },
         };
 
-        const { data } = await axios.post(`/api/course`, courseData, config);
+        const { data } = await axiosInstance.post(
+            `/api/course`,
+            courseData,
+            config
+        );
 
         dispatch({
             type: NEW_COURSE_SUCCESS,
@@ -126,7 +130,7 @@ export const addLessone =
                 },
             };
 
-            const { data } = await axios.post(
+            const { data } = await axiosInstance.post(
                 `/api/course/lesson/${slug}/${instructorId}`,
                 lessoneData,
                 config
@@ -157,7 +161,7 @@ export const publishCourse = (courseId) => async (dispatch) => {
             },
         };
 
-        const { data } = await axios.put(
+        const { data } = await axiosInstance.put(
             `/api/course/publish/${courseId}`,
             config
         );
@@ -187,7 +191,7 @@ export const unpublishCourse = (courseId) => async (dispatch) => {
             },
         };
 
-        const { data } = await axios.put(
+        const { data } = await axiosInstance.put(
             `/api/course/unpublish/${courseId}`,
             config
         );
@@ -210,7 +214,7 @@ export const getCourseDetails = (slug) => async (dispatch) => {
     try {
         dispatch({ type: COURSE_DETAILS_REQUEST });
 
-        const { data } = await axios.get(`/api/course/public/${slug}`);
+        const { data } = await axiosInstance.get(`/api/course/public/${slug}`);
 
         console.log("Course Details :", data);
 
@@ -237,7 +241,7 @@ export const updateCourse = (slug, courseData) => async (dispatch) => {
             },
         };
 
-        const { data } = await axios.put(
+        const { data } = await axiosInstance.put(
             `/api/course/${slug}`,
             courseData,
             config
@@ -260,7 +264,9 @@ export const deleteCourse = (id) => async (dispatch) => {
     try {
         dispatch({ type: DELETE_COURSE_REQUEST });
 
-        const { data } = await axios.delete(`/api/v1/admin/product/${id}`);
+        const { data } = await axiosInstance.delete(
+            `/api/v1/admin/product/${id}`
+        );
 
         dispatch({
             type: DELETE_COURSE_SUCCESS,
@@ -285,7 +291,7 @@ export const uploadVideo = (instructorId, video) => async (dispatch) => {
             },
         };
 
-        const { data } = await axios.post(
+        const { data } = await axiosInstance.post(
             `/api/course/video-upload/${instructorId}`,
             video,
             config
@@ -316,7 +322,7 @@ export const deleteVideo = (instructorId, video) => async (dispatch) => {
             },
         };
 
-        const { data } = await axios.put(
+        const { data } = await axiosInstance.put(
             `/api/course/video-remove/${instructorId}`,
             video,
             config
@@ -347,7 +353,7 @@ export const updateLessone = (slug, lessonId, lessone) => async (dispatch) => {
             },
         };
 
-        const { data } = await axios.put(
+        const { data } = await axiosInstance.put(
             `/api/course/lesson/${slug}/${lessonId}`,
             lessone,
             config
@@ -376,7 +382,10 @@ export const deleteLessone = (slug, id) => async (dispatch) => {
             },
         };
 
-        const { data } = await axios.put(`/api/course/${slug}/${id}`, config);
+        const { data } = await axiosInstance.put(
+            `/api/course/${slug}/${id}`,
+            config
+        );
 
         dispatch({
             type: DELETE_LESSONE_SUCCESS,
@@ -394,7 +403,9 @@ export const checkEnrollment = (slug) => async (dispatch) => {
     try {
         dispatch({ type: CHECK_ENROLL_REQUEST });
 
-        const { data } = await axios.get(`/api/check-enrollment/${slug}`);
+        const { data } = await axiosInstance.get(
+            `/api/check-enrollment/${slug}`
+        );
 
         console.log("Check Enroll :", data);
 
@@ -421,7 +432,7 @@ export const freeEnrollment = (courseId) => async (dispatch) => {
             },
         };
 
-        const { data } = await axios.post(
+        const { data } = await axiosInstance.post(
             `/api/free-enrollment/${courseId}`,
             config
         );
@@ -445,7 +456,7 @@ export const paidEnrollment = (id) => async (dispatch) => {
     try {
         dispatch({ type: PAID_ENROLLMENT_REQUEST });
 
-        const { data } = await axios.get(`/api/stripe-success/${id}`);
+        const { data } = await axiosInstance.get(`/api/stripe-success/${id}`);
 
         console.log("Paid Enroll course :", data);
 
@@ -466,7 +477,7 @@ export const getUserCourses = () => async (dispatch) => {
     try {
         dispatch({ type: USER_COURSE_REQUEST });
 
-        const { data } = await axios.get("/api/user-courses");
+        const { data } = await axiosInstance.get("/api/user-courses");
 
         console.log("Course :", data);
 
@@ -493,7 +504,7 @@ export const getCompletedLessone = (courseId) => async (dispatch) => {
             },
         };
 
-        const { data } = await axios.post(
+        const { data } = await axiosInstance.post(
             `/api/list-completed`,
             {
                 courseId,
@@ -527,7 +538,7 @@ export const markCompleteLessone = (courseId, lessonId) => async (dispatch) => {
             },
         };
 
-        const { data } = axios.post(
+        const { data } = axiosInstance.post(
             `/api/mark-completed`,
             {
                 courseId,
@@ -562,7 +573,7 @@ export const markInCompleteLessone =
                 },
             };
 
-            const { data } = axios.post(
+            const { data } = axiosInstance.post(
                 `/api/mark-incomplete`,
                 {
                     courseId,

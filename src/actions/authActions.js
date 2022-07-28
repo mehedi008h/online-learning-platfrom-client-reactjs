@@ -1,3 +1,4 @@
+import { axiosInstance } from "../config";
 import {
     CLEAR_ERRORS,
     LOAD_USER_FAIL,
@@ -18,7 +19,7 @@ import {
     USER_DETAILS_REQUEST,
     USER_DETAILS_SUCCESS,
 } from "../constants/authConstants";
-import axios from "axios";
+
 // Register user
 export const register = (userData) => async (dispatch) => {
     try {
@@ -30,7 +31,11 @@ export const register = (userData) => async (dispatch) => {
             },
         };
 
-        const { data } = await axios.post("/api/register", userData, config);
+        const { data } = await axiosInstance.post(
+            "/api/register",
+            userData,
+            config
+        );
 
         dispatch({
             type: REGISTER_USER_SUCCESS,
@@ -55,7 +60,7 @@ export const login = (email, password) => async (dispatch) => {
             },
         };
 
-        const { data } = await axios.post(
+        const { data } = await axiosInstance.post(
             "/api/login",
             { email, password },
             config
@@ -78,7 +83,7 @@ export const loadUser = () => async (dispatch) => {
     try {
         dispatch({ type: LOAD_USER_REQUEST });
 
-        const { data } = await axios.get("/api/current-user");
+        const { data } = await axiosInstance.get("/api/current-user");
 
         dispatch({
             type: LOAD_USER_SUCCESS,
@@ -95,7 +100,7 @@ export const loadUser = () => async (dispatch) => {
 // Logout user
 export const logout = () => async (dispatch) => {
     try {
-        await axios.get("/api/logout");
+        await axiosInstance.get("/api/logout");
 
         dispatch({
             type: LOGOUT_SUCCESS,
@@ -119,7 +124,7 @@ export const updateProfile = (userData) => async (dispatch) => {
             },
         };
 
-        const { data } = await axios.put(
+        const { data } = await axiosInstance.put(
             "/api/current-user/update",
             userData,
             config
@@ -144,7 +149,7 @@ export const getUserDetails = (id) => async (dispatch) => {
     try {
         dispatch({ type: USER_DETAILS_REQUEST });
 
-        const { data } = await axios.get(`/api/user/${id}`);
+        const { data } = await axiosInstance.get(`/api/user/${id}`);
 
         console.log("Data 33", data);
 

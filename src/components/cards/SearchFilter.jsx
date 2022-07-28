@@ -6,15 +6,15 @@ const SearchFilter = ({ category, setCategory }) => {
     const [keyword, setKeyword] = useState("");
 
     const categories = [
-        "Node",
-        "React",
-        "Spring",
-        "Footwear",
-        "Accessories",
-        "Clothing",
-        "Beauty/Health",
-        "Sports",
-        "Outdoor",
+        "Node JS",
+        "React JS",
+        "Spring Boot",
+        "Java",
+        "JavaScript",
+        "Python",
+        "Angular",
+        "MongoDB",
+        "Express JS",
         "Other",
     ];
 

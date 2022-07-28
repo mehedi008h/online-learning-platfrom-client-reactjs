@@ -1,7 +1,7 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import MetaData from "../../components/layout/MetaData";
 import { axiosInstance } from "../../config";
 
 const BecomeInstructor = () => {
@@ -12,7 +12,7 @@ const BecomeInstructor = () => {
     const becomeInstructor = () => {
         // console.log("become instructor");
         setLoading(true);
-        axios
+        axiosInstance
             .post("/api/make-instructor")
             .then((res) => {
                 console.log(res);
@@ -26,6 +26,7 @@ const BecomeInstructor = () => {
     };
     return (
         <div className="mt-20">
+            <MetaData title={"Become Instructor"} />
             <h1 className="jumbotron text-center square">Become Instructor</h1>
 
             <div className="container">

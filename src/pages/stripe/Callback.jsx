@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { axiosInstance } from "../../config";
@@ -8,7 +7,7 @@ const Callback = () => {
 
     useEffect(() => {
         if (user) {
-            axios.post(`/api/get-account-status`).then((res) => {
+            axiosInstance.post(`/api/get-account-status`).then((res) => {
                 // console.log(res);
                 window.location.href = "/instructor";
             });

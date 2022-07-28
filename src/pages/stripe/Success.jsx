@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { paidEnrollment } from "../../actions/courseActions";
 import Loader from "../../components/layout/loader/Loader";
+import MetaData from "../../components/layout/MetaData";
 import { CLEAR_ERRORS } from "../../constants/courseConstants";
 
 const Success = () => {
@@ -36,7 +37,8 @@ const Success = () => {
             ) : (
                 <>
                     <div className="mt-10">
-                        <h1 className="text-4xl font-semibold text-center">
+                        <MetaData title={"Success"} />
+                        <h1 className="text-4xl font-semibold text-center font-roboto">
                             Thanks for enrolling in this course!
                         </h1>
                         <p className="my-6 text-center">Your order ID : {id}</p>
@@ -46,9 +48,12 @@ const Success = () => {
                         </p>
                         <hr />
                         <div className="text-center mt-5">
-                            <button className="bg-purple-500 px-6 py-2 rounded-full text-white">
+                            <Link
+                                to={`/user/course/${id}`}
+                                className="bg-purple-500 px-6 py-2 rounded-full text-white"
+                            >
                                 Go to course
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </>

@@ -1,4 +1,3 @@
-import axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +13,7 @@ import {
 import CoursePlayer from "../../components/cards/CoursePlayer";
 import LessoneList from "../../components/cards/LessoneList";
 import Loader from "../../components/layout/loader/Loader";
+import MetaData from "../../components/layout/MetaData";
 import { axiosInstance } from "../../config";
 import {
     MARK_COMPLETE_RESET,
@@ -39,7 +39,7 @@ const UserCourseDetails = () => {
 
     const markCompleted = async () => {
         // dispatch(markCompleteLessone(course?._id, lessone?._id));
-        const { data } = await axios.post(`/api/mark-completed`, {
+        const { data } = await axiosInstance.post(`/api/mark-completed`, {
             courseId: course._id,
             lessonId: lessone._id,
         });
@@ -50,7 +50,7 @@ const UserCourseDetails = () => {
 
     const markIncompleted = async () => {
         // dispatch(markInCompleteLessone(course?._id, lessone?._id));
-        const { data } = await axios.post("/api/mark-incomplete", {
+        const { data } = await axiosInstance.post("/api/mark-incomplete", {
             courseId: course._id,
             lessonId: lessone._id,
         });
@@ -107,6 +107,7 @@ const UserCourseDetails = () => {
                 ) : (
                     <>
                         <div className="grid md:grid-cols-12 lg:grid-cols-12 gap-4 grid-cols-none">
+                            <MetaData title={course?.name} />
                             <div className="md:col-span-8 lg:col-span-8 col-span-12">
                                 <CoursePlayer
                                     lessone={lessone}

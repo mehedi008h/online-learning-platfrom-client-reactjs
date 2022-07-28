@@ -12,6 +12,7 @@
         "get-video-duration": "^4.1.0",
         "react": "^18.1.0",
         "react-dom": "^18.1.0",
+        "react-helmet": "^6.1.0",
         "react-icons": "^4.4.0",
         "react-image-file-resizer": "^0.4.8",
         "react-js-pagination": "^3.0.3",

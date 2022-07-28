@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { clearErrors, getUserCourses } from "../../actions/courseActions";
 import UserCourseCard from "../../components/cards/UserCourseCard";
 import Loader from "../../components/layout/loader/Loader";
+import MetaData from "../../components/layout/MetaData";
 
 const UserHome = () => {
     const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const UserHome = () => {
     }, [dispatch, error]);
     return (
         <div className="flex bg-gray-200 min-h-screen">
+            <MetaData title={"User Dashboard"} />
             <div className="md:w-3/4 w-4/5 mx-auto mt-20 mb-8">
                 <div className="flex justify-between items-center">
                     <h3 className="text-lg font-semibold tracking-wide">

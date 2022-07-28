@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { clearErrors, login } from "../../actions/authActions";
 import { toast } from "react-toastify";
 import login_image from "../../assets/Lesson-amico.svg";
+import MetaData from "../../components/layout/MetaData";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -33,6 +34,7 @@ const Login = () => {
 
     return (
         <div className="w-full bg-gray-200 flex justify-center items-center h-screen p-4">
+            <MetaData title={"Login"} />
             <div className="p-8 bg-white rounded-md shadow md:w-3/5 lg:w-3/5 w-full">
                 <div className="grid md:grid-cols-12 lg:grid-cols-12 grid-cols-none gap-4 justify-center items-center">
                     <div className="col-span-6">

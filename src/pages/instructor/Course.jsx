@@ -9,6 +9,7 @@ import {
 } from "../../actions/instructorActions";
 import InstructorCourseCard from "../../components/cards/InstructorCourseCard";
 import Loader from "../../components/layout/loader/Loader";
+import MetaData from "../../components/layout/MetaData";
 
 const Course = () => {
     const dispatch = useDispatch();
@@ -29,6 +30,7 @@ const Course = () => {
     }, [dispatch, error]);
     return (
         <div className="flex bg-gray-200 min-h-screen">
+            <MetaData title={"Instructor Courses"} />
             <div className="md:w-3/4 w-4/5 mx-auto mt-20 mb-8">
                 <div className="flex justify-between items-center">
                     <h3 className="text-lg font-semibold tracking-wide">

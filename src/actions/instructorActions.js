@@ -1,3 +1,4 @@
+import { axiosInstance } from "../config";
 import {
     INSTRUCTOR_COURSE_FAIL,
     INSTRUCTOR_COURSE_REQUEST,
@@ -10,14 +11,12 @@ import {
     ENROLLED_STUDENT_SUCCESS,
 } from "../constants/instructorConstants";
 
-import axios from "axios";
-
 // get course for user
 export const getInstructorCourses = () => async (dispatch) => {
     try {
         dispatch({ type: INSTRUCTOR_COURSE_REQUEST });
 
-        const { data } = await axios.get("/api/instructor-courses");
+        const { data } = await axiosInstance.get("/api/instructor-courses");
 
         console.log("Course :", data);
 
@@ -44,7 +43,7 @@ export const enrolledStudentCount = (courseId) => async (dispatch) => {
             },
         };
 
-        const { data } = await axios.post(
+        const { data } = await axiosInstance.post(
             `/api/instructor/student-count`,
             { courseId },
             config

@@ -7,7 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearErrors, newCourse } from "../../actions/courseActions";
 import { NEW_COURSE_RESET } from "../../constants/courseConstants";
 import { useEffect } from "react";
-import axios from "axios";
+
+import MetaData from "../../components/layout/MetaData";
+import { axiosInstance } from "../../config";
 
 const CreateCourse = () => {
     const { loading, error, success } = useSelector((state) => state.newCourse);
@@ -50,7 +52,7 @@ const CreateCourse = () => {
             0,
             async (uri) => {
                 try {
-                    let { data } = await axios.post(
+                    let { data } = await axiosInstance.post(
                         "/api/course/upload-image",
                         {
                             image: uri,
@@ -74,7 +76,7 @@ const CreateCourse = () => {
             // console.log(values);
 
             setValues({ ...values, loading: true });
-            const res = await axios.post("/api/course/remove-image", {
+            const res = await axiosInstance.post("/api/course/remove-image", {
                 image,
             });
             setImage({});
@@ -117,6 +119,7 @@ const CreateCourse = () => {
     }, [dispatch, error, success, navigate]);
     return (
         <div className="relative">
+            <MetaData title={"New Course"} />
             <div
                 className="h-60 flex items-center justify-start"
                 style={{

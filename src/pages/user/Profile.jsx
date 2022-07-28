@@ -12,7 +12,7 @@ import {
 } from "../../actions/authActions";
 import { UPDATE_PROFILE_RESET } from "../../constants/authConstants";
 import { axiosInstance } from "../../config";
-import axios from "axios";
+import MetaData from "../../components/layout/MetaData";
 
 const Profile = () => {
     const [edit, setEdit] = useState(false);
@@ -62,7 +62,7 @@ const Profile = () => {
             0,
             async (uri) => {
                 try {
-                    let { data } = await axios.post(
+                    let { data } = await axiosInstance.post(
                         "/api/course/upload-image",
                         {
                             image: uri,
@@ -116,6 +116,7 @@ const Profile = () => {
             ) : (
                 <>
                     <div className="mt-20 md:w-3/5 lg:w-3/5 w-full  md:mx-auto lg:mx-auto mx-2 mb-4 bg-white h-min rounded-md">
+                        <MetaData title={user?.name} />
                         <div className="flex justify-between items-center px-4 py-2">
                             <h1 className="font-medium text-lg">My Profile</h1>
                             <button

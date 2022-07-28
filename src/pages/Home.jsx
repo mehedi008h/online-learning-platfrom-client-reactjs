@@ -8,6 +8,7 @@ import { getCourses } from "../actions/courseActions";
 import CourseCard from "../components/cards/CourseCard";
 import Loader from "../components/layout/loader/Loader";
 import SearchFilter from "../components/cards/SearchFilter";
+import MetaData from "../components/layout/MetaData";
 
 const Home = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -49,6 +50,7 @@ const Home = () => {
             ) : (
                 <>
                     <div className="md:w-4/5 lg:w-4/5 w-full px-4 md:px-0 lg:px-0 mx-auto mt-20">
+                        <MetaData title={"Home"} />
                         <SearchFilter
                             category={category}
                             setCategory={setCategory}

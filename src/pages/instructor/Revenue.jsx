@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { stripeCurrencyFormatter } from "../../utils/helper";
 import { AiFillMoneyCollect, AiFillSetting } from "react-icons/ai";
 import ButtonLoader from "../../components/layout/buttonLoader/ButtonLoader";
-import axios from "axios";
+import MetaData from "../../components/layout/MetaData";
+import { axiosInstance } from "../../config";
 
 const Revenue = () => {
     const [balance, setBalance] = useState({ pending: [] });
@@ -13,14 +14,16 @@ const Revenue = () => {
     }, []);
 
     const sendBalanceRequest = async () => {
-        const { data } = await axios.get(`/api/instructor/balance`);
+        const { data } = await axiosInstance.get(`/api/instructor/balance`);
         setBalance(data);
     };
 
     const handlePayoutSettings = async () => {
         try {
             setLoading(true);
-            const { data } = await axios.get(`/api/instructor/payout-settings`);
+            const { data } = await axiosInstance.get(
+                `/api/instructor/payout-settings`
+            );
             window.location.href = data;
         } catch (err) {
             setLoading(false);
@@ -30,6 +33,7 @@ const Revenue = () => {
     };
     return (
         <div className="mt-20">
+            <MetaData title={"Instructor Revenue"} />
             <div className="w-4/5 mx-auto">
                 <div className="container font-poppins">
                     <div className="pt-2">

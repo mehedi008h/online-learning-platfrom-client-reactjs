@@ -23,6 +23,7 @@ import Revenue from "./pages/instructor/Revenue";
 import BecomeInstructor from "./pages/user/BecomeInstructor";
 import Callback from "./pages/stripe/Callback";
 import Profile from "./pages/user/Profile";
+import NotFound from "./pages/NotFound";
 
 function App() {
     useEffect(() => {
@@ -44,11 +45,16 @@ function App() {
                     pauseOnHover
                 />
                 <Routes>
-                    <Route path="/" element={<Home />} />
+                    <Route path="/" element={<Home />} exact />
                     <Route path="/search/:keyword" element={<Home />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/signup" element={<Signup />} />
-                    <Route path="/course/:slug" element={<CourseDetails />} />
+                    <Route path="/login" element={<Login />} exact />
+                    <Route path="/signup" element={<Signup />} exact />
+                    <Route
+                        path="/course/:slug"
+                        element={<CourseDetails />}
+                        exact
+                    />
+                    <Route path="*" element={<NotFound />} />
 
                     {/* Instructor  */}
 
@@ -59,6 +65,7 @@ function App() {
                                 <Course />
                             </ProtectedRoute>
                         }
+                        exact
                     />
                     <Route
                         path="/instructor/course/new"
@@ -67,6 +74,7 @@ function App() {
                                 <CreateCourse />
                             </ProtectedRoute>
                         }
+                        exact
                     />
                     <Route
                         path="/instructor/course/:slug"
@@ -75,6 +83,7 @@ function App() {
                                 <InstructorCourseDetails />
                             </ProtectedRoute>
                         }
+                        exact
                     />
                     <Route
                         path="/instructor/course/update/:slug"
@@ -83,6 +92,7 @@ function App() {
                                 <UpdateCourse />
                             </ProtectedRoute>
                         }
+                        exact
                     />
                     <Route
                         path="/instructor/revenue"
@@ -91,6 +101,7 @@ function App() {
                                 <Revenue />
                             </ProtectedRoute>
                         }
+                        exact
                     />
 
                     {/* user  */}
@@ -102,6 +113,7 @@ function App() {
                                 <Profile />
                             </ProtectedRoute>
                         }
+                        exact
                     />
                     <Route
                         path="/user"
@@ -110,6 +122,7 @@ function App() {
                                 <UserHome />
                             </ProtectedRoute>
                         }
+                        exact
                     />
                     <Route
                         path="/user/course/:slug"
@@ -118,6 +131,7 @@ function App() {
                                 <UserCourseDetails />
                             </ProtectedRoute>
                         }
+                        exact
                     />
                     <Route
                         path="/user/become-instructor"
@@ -126,6 +140,7 @@ function App() {
                                 <BecomeInstructor />
                             </ProtectedRoute>
                         }
+                        exact
                     />
                     <Route
                         path="stripe/callback"
@@ -134,6 +149,7 @@ function App() {
                                 <Callback />
                             </ProtectedRoute>
                         }
+                        exact
                     />
                     {/* stripe  */}
                     <Route
@@ -143,6 +159,7 @@ function App() {
                                 <Success />
                             </ProtectedRoute>
                         }
+                        exact
                     />
                 </Routes>
             </BrowserRouter>

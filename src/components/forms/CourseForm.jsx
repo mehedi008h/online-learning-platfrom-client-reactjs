@@ -11,7 +11,20 @@ const CourseForm = ({
     handleImageRemove,
     editPage = false,
 }) => {
-    console.log(values);
+    console.log("Values :", values);
+    const categories = [
+        "Node JS",
+        "React JS",
+        "Spring Boot",
+        "Java",
+        "JavaScript",
+        "Python",
+        "Angular",
+        "MongoDB",
+        "Express JS",
+        "Other",
+    ];
+
     const children = [];
     for (let i = 9.99; i <= 100.99; i++) {
         children.push(<option key={i.toFixed(2)}>{i.toFixed(2)}</option>);
@@ -99,14 +112,23 @@ const CourseForm = ({
                     >
                         Course Category
                     </label>
-                    <input
-                        type="text"
+                    <select
                         name="category"
-                        placeholder="Category"
+                        id=""
+                        className="border-b-2 border-gray-500 bg-transparent outline-none py-2 px-4 focus:border-green-500"
                         value={values.category}
                         onChange={handleChange}
-                        className="border-b-2 border-gray-500 bg-transparent outline-none py-2 px-4 focus:border-green-500"
-                    />
+                    >
+                        {categories.map((category, index) => (
+                            <option
+                                key={index}
+                                value={category}
+                                className="text-black"
+                            >
+                                {category}
+                            </option>
+                        ))}
+                    </select>
                 </div>
 
                 {/* course image  */}

@@ -1,4 +1,3 @@
-import axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,8 +17,10 @@ import CourseLessone from "../../components/cards/CourseLessone";
 import CourseTools from "../../components/cards/CourseTools";
 import InstructorCourseDetailsHeader from "../../components/cards/InstructorCourseDetailsHeader";
 import Loader from "../../components/layout/loader/Loader";
+import MetaData from "../../components/layout/MetaData";
 import AddLessoneModal from "../../components/modal/AddLessoneModal";
 import PreviewModal from "../../components/modal/PreviewModal";
+import { axiosInstance } from "../../config";
 import {
     ADD_LESSONE_RESET,
     COURSE_PUBLISH_RESET,
@@ -83,7 +84,7 @@ const InstructorCourseDetails = () => {
             const videoData = new FormData();
             videoData.append("video", file);
             // save progress bar and send video as form data to backend
-            const { data } = await axios.post(
+            const { data } = await axiosInstance.post(
                 `/api/course/video-upload/${course.instructor._id}`,
                 videoData,
                 {
@@ -105,7 +106,7 @@ const InstructorCourseDetails = () => {
     const handleVideoRemove = async () => {
         try {
             setUploading(true);
-            const { data } = await axios.post(
+            const { data } = await axiosInstance.post(
                 `/api/course/video-remove/${course.instructor._id}`,
                 values.video
             );
@@ -188,6 +189,7 @@ const InstructorCourseDetails = () => {
             ) : (
                 <>
                     <div className="w-full relative">
+                        <MetaData title={course?.name} />
                         <div className="">
                             <InstructorCourseDetailsHeader
                                 course={course}

@@ -16,7 +16,8 @@ import CourseLessone from "../../components/cards/CourseLessone";
 import Instructor from "../../components/cards/Instructor";
 import Loader from "../../components/layout/loader/Loader";
 import PreviewModal from "../../components/modal/PreviewModal";
-import axios from "axios";
+import MetaData from "../../components/layout/MetaData";
+import { axiosInstance } from "../../config";
 
 const CourseDetails = () => {
     const [open, setOpen] = useState(false);
@@ -49,7 +50,7 @@ const CourseDetails = () => {
 
             // dispatch(paidEnrollment(course?._id));
             // console.log("enroll to this course > ", course._id);
-            const { data } = await axios.post(
+            const { data } = await axiosInstance.post(
                 `/api/paid-enrollment/${course._id}`
             );
 
@@ -110,6 +111,7 @@ const CourseDetails = () => {
             ) : (
                 <>
                     <div className="w-full relative">
+                        <MetaData title={course?.name} />
                         <div className="">
                             <CourseDetailsHeader
                                 course={course}

@@ -20,7 +20,7 @@ import {
     UPDATE_COURSE_RESET,
 } from "../../constants/courseConstants";
 import { axiosInstance } from "../../config";
-import axios from "axios";
+import MetaData from "../../components/layout/MetaData";
 
 const UpdateCourse = () => {
     const { loading, error, course } = useSelector(
@@ -70,7 +70,7 @@ const UpdateCourse = () => {
             0,
             async (uri) => {
                 try {
-                    let { data } = await axios.post(
+                    let { data } = await axiosInstance.post(
                         "/api/course/upload-image",
                         {
                             image: uri,
@@ -88,7 +88,7 @@ const UpdateCourse = () => {
 
     const handleImageRemove = async () => {
         try {
-            const res = await axios.post("/api/course/remove-image", {
+            const res = await axiosInstance.post("/api/course/remove-image", {
                 image,
             });
             setImage({});
@@ -114,7 +114,7 @@ const UpdateCourse = () => {
     const handleVideo = async (e) => {
         // remove previous video
         if (lessone?.video && lessone?.video.Location) {
-            const res = await axios.post(
+            const res = await axiosInstance.post(
                 `/api/course/video-remove/${course?.instructor?._id}`,
                 lessone?.video
             );
@@ -128,7 +128,7 @@ const UpdateCourse = () => {
             const videoData = new FormData();
             videoData.append("video", file);
             // save progress bar and send video as form data to backend
-            const { data } = await axios.post(
+            const { data } = await axiosInstance.post(
                 `/api/course/video-upload/${course?.instructor?._id}`,
                 videoData,
                 {
@@ -181,6 +181,7 @@ const UpdateCourse = () => {
     }, [dispatch, slug, error, isUpdated, isDeleted, navigate]);
     return (
         <div className="relative">
+            <MetaData title={"Update Course"} />
             <div
                 className="h-60 flex items-center justify-start"
                 style={{ background: "#494d67" }}

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { clearErrors, register } from "../../actions/authActions";
 import login_image from "../../assets/Lesson-amico.svg";
+import MetaData from "../../components/layout/MetaData";
 
 const Signup = () => {
     const [name, setName] = useState("");
@@ -37,6 +38,7 @@ const Signup = () => {
     };
     return (
         <div className="w-full bg-gray-200 flex justify-center items-center h-screen p-4">
+            <MetaData title={"Signup"} />
             <div className="p-8 bg-white rounded-md shadow md:w-3/5 lg:w-3/5 w-full">
                 <div className="grid md:grid-cols-12 lg:grid-cols-12 grid-cols-none gap-4 justify-center items-center">
                     <div className="col-span-6">
